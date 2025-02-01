@@ -9,13 +9,7 @@ const LayoutA = ({ userRole }) => {
     <div className="flex min-h-screen">
       <SideNavBar userRole={userRole} />
    
-    <div className="bg-red ml-[240px] pt-[64px] ">
-    <TopNavBar  />
-    <main className="p-8">
-
-      <Outlet/> 
-    </main>
-      </div>
+   
       </div>
   );
 };
