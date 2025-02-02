@@ -1,25 +1,35 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import './index.css';
-import App from './App.jsx';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { UserProvider } from './UseContext.jsx'; 
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { UserProvider, useUser } from "./UseContext.jsx";
+import LayoutA from "./components/LayoutA";
+import { StudentInfo } from "./components/StudentInfo.jsx";
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <App />,
+const App = () => {
+  const { userRole } = useUser(); 
   
-  },
-]);
 
-const rootElement = document.getElementById('root');
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <LayoutA />,
+      children: [
+        { path: "studentsinfo", element: <StudentInfo /> },
+      ],
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
+};
+
+const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
 root.render(
   <StrictMode>
     <UserProvider>
-      <RouterProvider router={router} />
+      <App /> 
     </UserProvider>
-  </StrictMode>,
+  </StrictMode>
 );

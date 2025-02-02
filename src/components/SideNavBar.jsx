@@ -1,20 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; 
+
 const navLinksMap = {
 
   student: [
-    { name: 'Home' },
-    { name: 'Reports' },
-    { name: 'Communication' },
-    { name: 'Internships opportunities' },
-    { name: 'Track Application Status' },
+    { name: 'Home' ,href : '/home'},
+    { name: 'Reports',href : '/reports' },
+    { name: 'Communication',href:'/communication' },
+    { name: 'Internships opportunities',href:'/opportunities' },
+    { name: 'Track Application Status',href:'/track' },
     { name: 'My Tasks'},
   ],
   companySupervisor: [
     { name: 'Home' ,href : '/home'},
     { name: 'Reports' },
     { name: 'Communication' },
-    { name: 'Student Information' },
+    { name: 'Student Information',href:'/studentsinfo' },
     { name: 'Assign Task'},
     { name: 'Task Progress'},
 
