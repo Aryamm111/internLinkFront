@@ -2,6 +2,7 @@ import React from 'react';
 import Table from './Table';
 
 export const StudentInfo = ({ userRole }) => {
+ 
   const columns = [
     { header: 'No.', key: 'id' },
     { header: 'Student Name', key: 'name' },
@@ -11,7 +12,7 @@ export const StudentInfo = ({ userRole }) => {
       header: 'Action',
       key: 'action',
       render: (_, row) => (
-        <button className="bg-blue-500 text-white px-4 py-1 rounded-xl hover:bg-blue-600 transition-colors duration-300">
+        <button className="bg-blue-500 text-white px-4 py-1 rounded-xl hover:bg-blue-600 ">
           View
         </button>
       ),
@@ -28,10 +29,11 @@ export const StudentInfo = ({ userRole }) => {
   return (
     <div className="min-h-screen  p-8">
       <h1 className="text-3xl font-bold text-gray-800 mb-8 text-left">Student Information</h1>
-        <div className="bg-gray-100 shadow-lg rounded-lg p-8 w-full ">
+      <div className="flex justify-center">
+        <div className="bg-gray-100 shadow-sm rounded-lg p-8">
           <Table columns={columns} data={data} userRole={userRole} />
         </div>
-    
+        </div>
     </div>
   );
 };

@@ -17,3 +17,12 @@ main {
   flex: 1;
   overflow: auto;
 }
+
+*::-webkit-scrollbar {
+  display: block;
+}
+
+* {
+  -ms-overflow-style: auto;
+  scrollbar-width: auto;
+}

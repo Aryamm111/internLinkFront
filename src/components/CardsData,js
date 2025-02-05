@@ -1,0 +1,60 @@
+
+  export const companySupervisorCards = [
+    {
+      title: 'Reports',
+      description: 'View and verify submitted reports.',
+      buttonText: 'View',
+      onClick: () => console.log('Navigate to Reports'),
+    },
+    {
+      title: 'Communication',
+      description: 'Connect with students and faculty members.',
+      buttonText: 'Contact',
+      onClick: () => console.log('Navigate to Communication'),
+    },
+    {
+      title: 'Task Management',
+      description: 'Assign tasks for students, and view their progress.',
+      buttonText: 'Manage',
+      onClick: () => console.log('Navigate to Task Management'),
+    },
+    {
+      title: 'Student Information',
+      description: 'Access and review student profiles.',
+      buttonText: 'View',
+      onClick: () => console.log('Navigate to Student Information'),
+    },
+  ];
+  
+  export const studentCards = [
+    {
+      title: 'Reports',
+      description: 'Submit and view your internship reports easily.',
+      buttonText: 'Submit',
+      onClick: () => console.log('Navigate to Reports'),
+    },
+    {
+      title: 'Communication',
+      description: 'Connect with your supervisors and peers seamlessly.',
+      buttonText: 'Contact',
+      onClick: () => console.log('Navigate to Communication'),
+    },
+    {
+      title: 'Internship Opportunities',
+      description: 'Explore and apply for the latest internship openings.',
+      buttonText: 'Search',
+      onClick: () => console.log('Navigate to Internship Opportunities'),
+    },
+    {
+      title: 'Track Application Status',
+      description: 'Check the status of your internship applications in real-time.',
+      buttonText: 'Track',
+      onClick: () => console.log('Navigate to Application Status'),
+    },
+    {
+      title: 'My Tasks',
+      description: 'View and manage your assigned internship tasks.',
+      buttonText: 'View Task',
+      onClick: () => console.log('Navigate to My Tasks'),
+    },
+  ];

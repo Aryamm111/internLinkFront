@@ -5,10 +5,17 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { UserProvider, useUser } from "./UseContext.jsx";
 import LayoutA from "./components/LayoutA";
 import { StudentInfo } from "./components/StudentInfo.jsx";
+import HomePage from "./components/HomePage.jsx";
+import { companySupervisorCards,studentCards } from "./components/CardsData,js";
+
+const cardsDataMap = {
+  student: studentCards,
+  companySupervisor: companySupervisorCards,
+};
 
 const App = () => {
   const { userRole } = useUser(); 
-  
+  const cardsData = cardsDataMap[userRole] || [];
 
   const router = createBrowserRouter([
     {
@@ -16,6 +23,9 @@ const App = () => {
       element: <LayoutA />,
       children: [
         { path: "studentsinfo", element: <StudentInfo /> },
+        // { path: "reports", element: <ReportsPage /> }
+   
+        { path: "home", element: <HomePage  cardsData={cardsData} />},
       ],
     },
   ]);
