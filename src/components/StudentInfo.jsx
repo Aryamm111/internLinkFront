@@ -30,7 +30,7 @@ export const StudentInfo = ({ userRole }) => {
     <div className="min-h-screen  p-8">
       <h1 className="text-3xl font-bold text-gray-800 mb-8 text-left">Student Information</h1>
       <div className="flex justify-center">
-        <div className="bg-gray-100 shadow-sm rounded-lg p-8">
+      <div className="bg-gray-100 px-8 py-7 rounded-lg w-full">
           <Table columns={columns} data={data} userRole={userRole} />
         </div>
         </div>
