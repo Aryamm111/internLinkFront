@@ -58,3 +58,24 @@
       onClick: () => console.log('Navigate to My Tasks'),
     },
   ];
+
+ export const hrManagerCards = [
+    {
+      title: 'Announcement management',
+      description: 'Manage intership posting by creating, editing, or removing announcemenments Review and update details to ensure accurate information for applicants.',
+      buttonText: 'Manage',
+      onClick: () => console.log('Navigate to Announcement management'),
+    },
+    {
+      title: 'Applications',
+      description: 'Evaluate student applications, then accept or reject candidates.',
+      buttonText: 'Review',
+      onClick: () => console.log('Navigate to Applications'),
+    },
+    {
+      title: 'Assign Supervisor',
+      description: 'Assign supervisor to a list of students.',
+      buttonText: 'Assign',
+      onClick: () => console.log('Navigate to Assign Supervisor'),
+    },
+  ];
