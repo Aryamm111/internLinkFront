@@ -16,7 +16,7 @@ const navLinksMap = {
     { name: 'Reports' },
     { name: 'Communication' },
     { name: 'Student Information',href:'/studentsinfo' },
-    { name: 'Assign Task'},
+    { name: 'Assign Task', href:'/TaskForm'},
     { name: 'Task Progress'},
 
   ],
