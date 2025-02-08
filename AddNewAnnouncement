@@ -1,0 +1,101 @@
+import React, { useState } from "react";
+
+const  AddNewAnnouncement= () => {
+  const [opportunity, setOpportunity] = useState({
+    opportunityName: "",
+    description: "",
+    duration: "",
+    major: "",
+    skillsNeeded: "",
+  });
+
+  const handleChange = (e) => {
+    setOpportunity({ ...AddNewAnnouncement, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Opportunity Submitted:", AddNewAnnouncement);
+    alert("Opportunity Added Successfully!");
+  };
+
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="bg-white p-10 rounded-lg shadow-lg w-full max-w-3xl">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Add New Announcement</h2>
+
+        <div className="bg-gray-200 p-8 rounded-lg">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-2 gap-4 items-center">
+                <label className="font-semibold text-gray-700">Opportunity Name</label>
+                <input
+                  type="text"
+                  name="opportunityName"
+                  value={AddNewAnnouncement.opportunityName}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-md p-2"
+                  required
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4 items-center">
+                <label className="font-semibold text-gray-700">Description</label>
+                <input
+                  type="text"
+                  name="description"
+                  value={AddNewAnnouncement.description}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-md p-2"
+                  required
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4 items-center">
+                <label className="font-semibold text-gray-700">Duration</label>
+                <input
+                  type="text"
+                  name="duration"
+                  value={AddNewAnnouncement.duration}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-md p-2"
+                  required
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4 items-center">
+                <label className="font-semibold text-gray-700">Major</label>
+                <input
+                  type="text"
+                  name="major"
+                  value={AddNewAnnouncement.major}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-md p-2"
+                  required
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4 items-center">
+                <label className="font-semibold text-gray-700">Skills Needed</label>
+                <input
+                  type="text"
+                  name="skillsNeeded"
+                  value={AddNewAnnouncement.skillsNeeded}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-md p-2"
+                  required
+                />
+              </div>
+              <div className="flex justify-end mt-4">
+                <button
+                  type="submit"
+                  className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"
+                >
+                  Add Announcement
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AddNewAnnouncementForm ;

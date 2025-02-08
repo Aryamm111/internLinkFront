@@ -26,6 +26,7 @@ const App = () => {
         { path: "studentsinfo", element: <StudentInfo /> },
         // { path: "reports", element: <ReportsPage /> }
         { path: "TaskForm", element: <TaskForm />},
+    { path: "AddNewAnnouncement", element: <AddNewAnnouncement /> },
         { path: "home", element: <HomePage  cardsData={cardsData} />},
       ],
     },
