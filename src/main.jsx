@@ -7,11 +7,12 @@ import LayoutA from "./components/LayoutA";
 import { StudentInfo } from "./components/StudentInfo.jsx";
 import TaskForm  from "./components/TaskForm.jsx";
 import HomePage from "./components/HomePage.jsx";
-import { companySupervisorCards,studentCards } from "./components/CardsData,js";
+import { companySupervisorCards,studentCards ,facultySupervisorCards } from "./components/CardsData,js";
 
 const cardsDataMap = {
   student: studentCards,
   companySupervisor: companySupervisorCards,
+  facultySupervisor: facultySupervisorCards
 };
 
 const App = () => {
