@@ -59,6 +59,27 @@
     },
   ];
 
+export const facultySupervisorCards = [
+    {
+      title: 'Reports',
+      description: 'view reports submitted by student .',
+      buttonText: 'View',
+      onClick: () => console.log('Navigate to Reports'),
+    },
+    {
+      title: 'Student Information',
+      description: 'Access and review student profiles.',
+      buttonText: 'View',
+      onClick: () => console.log('Navigate to Student Information'),
+    },
+    {
+      title: 'Communication',
+      description: 'Connect with students and company supervisors.',
+      buttonText: 'Contact',
+      onClick: () => console.log('Navigate to Communication'),
+    },
+  ];
+
  export const hrManagerCards = [
     {
       title: 'Announcement management',
