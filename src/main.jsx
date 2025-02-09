@@ -7,6 +7,7 @@ import LayoutA from "./components/LayoutA";
 import { StudentInfo } from "./components/StudentInfo.jsx";
 import TaskForm  from "./components/TaskForm.jsx";
 import HomePage from "./components/HomePage.jsx";
+import { ReportsPage } from "./components/ReportsPage.jsx";
 import { companySupervisorCards,studentCards ,facultySupervisorCards } from "./components/CardsData,js";
 
 const cardsDataMap = {
@@ -27,6 +28,7 @@ const App = () => {
         { path: "studentsinfo", element: <StudentInfo /> },
         // { path: "reports", element: <ReportsPage /> }
         { path: "TaskForm", element: <TaskForm />},
+        { path: "reports", element: <ReportsPage /> },
     { path: "AddNewAnnouncement", element: <AddNewAnnouncement /> },
         { path: "home", element: <HomePage  cardsData={cardsData} />},
       ],
