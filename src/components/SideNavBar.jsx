@@ -20,6 +20,14 @@ const navLinksMap = {
     { name: 'Task Progress'},
 
   ],
+  facultySupervisor: [
+    { name: 'Home' ,href : '/home'},
+    { name: 'Reports' },
+    { name: 'Communication' },
+    { name: 'Student Information',href:'/studentsinfo' },
+   
+
+  ],
 };
 
 const SideNavBar = () => {
