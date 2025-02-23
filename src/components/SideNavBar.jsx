@@ -13,7 +13,7 @@ const navLinksMap = {
   ],
   companySupervisor: [
     { name: 'Home' ,href : '/home'},
-    { name: 'Reports' },
+    { name: 'Reports', href:'/reports'},
     { name: 'Communication' },
     { name: 'Student Information',href:'/studentsinfo' },
     { name: 'Assign Task', href:'/TaskForm'},
@@ -22,7 +22,7 @@ const navLinksMap = {
   ],
   facultySupervisor: [
     { name: 'Home' ,href : '/home'},
-    { name: 'Reports' },
+    { name: 'Reports' , href:'/reports'},
     { name: 'Communication' },
     { name: 'Student Information',href:'/studentsinfo' },
    
