@@ -8,6 +8,7 @@ import { StudentInfo } from "./components/StudentInfo.jsx";
 import TaskForm  from "./components/TaskForm.jsx";
 import HomePage from "./components/HomePage.jsx";
 import { companySupervisorCards,studentCards ,facultySupervisorCards } from "./components/CardsData,js";
+import { ReportsPage } from "./components/ReportsPage.jsx";
 
 const cardsDataMap = {
   student: studentCards,
@@ -27,8 +28,9 @@ const App = () => {
         { path: "studentsinfo", element: <StudentInfo /> },
         // { path: "reports", element: <ReportsPage /> }
         { path: "TaskForm", element: <TaskForm />},
-    { path: "AddNewAnnouncement", element: <AddNewAnnouncement /> },
+    // { path: "AddNewAnnouncement", element: <AddNewAnnouncement /> },
         { path: "home", element: <HomePage  cardsData={cardsData} />},
+        { path: "reports", element: <ReportsPage />},
       ],
     },
   ]);
