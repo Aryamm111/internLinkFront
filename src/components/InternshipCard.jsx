@@ -26,13 +26,13 @@ const InternshipCard = ({
 
   return (
     <div className="max-w-3xl mx-auto pt-3 ">
-      <div className="flex bg-white shadow-lg rounded-lg p-6 border-4 border-pink-100  border-opacity-25">
+      <div className="flex bg-white shadow-lg rounded-xl p-6 border-4 border-opacity-25">
         <img 
           src={randomImage} 
           alt="Internship logo"
           className="w-16 h-16 rounded-lg  mr-6" 
         />
-        <div className="flex-1 mr-20 ">
+        <div className="flex-1 mr-10">
           <h1 className="text-xl font-bold text-gray-800">{title}</h1>
           <p className="text-sm text-gray-600">Location: {location}</p>
           <p className="text-sm text-gray-600">Major: {major}</p>

@@ -1,13 +1,28 @@
 import React from 'react';
 import HomePageCard from './HomePageCard';
+import { useUser } from '../context/UserContext.jsx';  // Import the context hook
 
-const HomePage = ({  cardsData = [] }) => {
+
+import { hrManagerCards, studentCards, companySupervisorCards, facultySupervisorCards } from "./CardsData.js"; 
+
+
+const cardsDataMap = {
+  HRMANAGER: hrManagerCards,
+  STUDENT: studentCards,
+  COMPANY_SUPERVISOR: companySupervisorCards,
+  FACULTY_SUPERVISOR: facultySupervisorCards,
+};
+
+const HomePage = () => {
+  const { userRole } = useUser(); 
+
+  const cardsData = cardsDataMap[userRole] || [];
 
   return (
-    <div >
-      <h1 >Home</h1>
-      <div className="bg-gray-100 px-8 py-7 rounded-lg w-full">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+    <div className="bg-red px-7 pt-9 ">
+      <h1 className="text-3xl font-bold text-gray-800 mb-6">Home</h1>
+      <div className="bg-gray-100 px-8 py-10 rounded-lg z-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {cardsData.map((card, index) => (
             <HomePageCard
               key={index}

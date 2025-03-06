@@ -5,7 +5,7 @@ import internshipsData from './CardsInternship.js';
 
 const ApplicationStatus = () => {
   return (
-    <div className='m-10 w-full'>
+    <div className='m-10 '>
       <h1  className="text-3xl font-bold text-gray-800 mb-6 ">My Application Status</h1>
 <div className="bg-gray-100 p-6 w-full  rounded-lg">
     <div className="space-y-2 w-full">
