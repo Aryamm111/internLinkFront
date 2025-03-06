@@ -13,7 +13,7 @@ import ApplicationStatus from "./components/ApplicationStatus.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Login from "./components/Login.jsx";
 import TaskForm from "./components/TaskForm.jsx";
-import {MyTasks }from "./components/Task.jsx";
+import {MyTasks } from "./components/MyTasks.jsx";
 import { TaskProvider } from "./TaskContext";
 
 const router = createBrowserRouter([

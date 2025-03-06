@@ -11,7 +11,7 @@ const navLinksMap = {
   ],
   STUDENT: [
     { name: 'Home', href: '/home' },
-    { name: 'Reports', href: '/reports' },
+    { name: 'Reports', href: '/uploadReport' },
     { name: 'Communication', href: '/Communication' },
     { name: 'Internships opportunities', href: '/internships' },
     { name: 'Track Application Status', href: '/track' },

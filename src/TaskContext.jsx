@@ -16,24 +16,27 @@ export const TaskProvider = ({ children }) => {
       });
       console.log("Fetched tasks:", response.data);
       setTasks(Array.isArray(response.data) ? response.data : []);
+      setLoading(false); 
     } catch (error) {
       console.error("Error fetching tasks:", error.response?.data || error);
       setTasks([]);
+      setLoading(false); // Set loading to false in case of error
     }
   };
-  
 
-
-  
-  // Toggle task completion
   const toggleTask = async (taskId) => {
     try {
-      await axios.put(`/api/tasks/${taskId}/toggle`, { withCredentials: true });
+      const response = await axios.put(
+        `http://localhost:8081/api/tasks/tasks/${taskId}/complete`, 
+        {}, // Empty object instead of passing `withCredentials` here
+        { withCredentials: true }
+      );
+  
+      const updatedTask = response.data; // Assuming the API returns the updated task
+  
       setTasks((prevTasks) =>
         prevTasks.map((task) =>
-          task.id === taskId
-            ? { ...task, completed: task.completed ? !task.completed : true } // Ensure it exists
-            : task
+          task.id === taskId ? { ...task, completed: updatedTask.completed } : task
         )
       );
     } catch (error) {
@@ -46,7 +49,7 @@ export const TaskProvider = ({ children }) => {
   }, []);
 
   return (
-    <TaskContext.Provider value={{ tasks, loading, toggleTask, fetchTasks }}>
+    <TaskContext.Provider value={{ tasks, loading, toggleTask }}>
       {children}
     </TaskContext.Provider>
   );
