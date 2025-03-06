@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useTasks } from "../TaskContext";
-
 export const Task = ({ task, toggleTask }) => {
-  const isCompleted = task.status === "COMPLETED"; // Adjust based on actual values
-
+  const isCompleted = task.completed; // Corrected to check the `completed` field
+  console.log("Rendering task:", task);  
   return (
     <div
       className={`flex justify-between items-center bg-white p-6 rounded-lg shadow-md mb-4 w-full transition-all duration-300 ${
@@ -31,49 +30,42 @@ export const Task = ({ task, toggleTask }) => {
 
 
 
+export const MyTasks = () => {
+  const { tasks, loading, toggleTask } = useTasks();
+  const [filter, setFilter] = useState("all");
+  console.log("Tasks received:", tasks); // Debugging line
 
+  if (loading) return <p>Loading tasks...</p>;
 
-  
-export const  MyTasks = () => {
-    const { tasks, loading, toggleTask } = useTasks();
-    const [filter, setFilter] = useState("all");
-    console.log("Tasks received:", tasks);
-
-    if (loading) return <p>Loading tasks...</p>;
-  
-    const filteredTasks = Array.isArray(tasks)
+  const filteredTasks = Array.isArray(tasks)
     ? tasks.filter((task) => {
         if (filter === "completed") return task.completed;
         if (filter === "incomplete") return !task.completed;
         return true;
       })
     : [];
-  
-  
-    
-  
-    return (
-      <div className="px-16 pt-9 flex justify-center w-full">
-        <div className="w-full max-w-6xl">
-          <h1 className="text-3xl font-bold text-gray-800 mb-6">My Tasks</h1>
-  
-          {/* Filter Dropdown */}
-          <select className="border px-3 py-1 rounded-lg" value={filter} onChange={(e) => setFilter(e.target.value)}>
-            <option value="all">All Tasks</option>
-            <option value="completed">Completed</option>
-            <option value="incomplete">Incomplete</option>
-          </select>
-  
-          {/* Task List */}
-          <div className="bg-gray-100 px-8 py-10 rounded-lg shadow-lg w-full">
-            {filteredTasks.length === 0 ? (
-              <p>No tasks available</p>
-            ) : (
-              filteredTasks.map((task) => <Task key={task.id} task={task} toggleTask={toggleTask} />)
-            )}
-          </div>
+
+  return (
+    <div className="px-16 pt-9 flex justify-center w-full">
+      <div className="w-full max-w-6xl">
+        <h1 className="text-3xl font-bold text-gray-800 mb-6">My Tasks</h1>
+
+        {/* Filter Dropdown */}
+        <select className="border px-3 py-1 rounded-lg" value={filter} onChange={(e) => setFilter(e.target.value)}>
+          <option value="all">All Tasks</option>
+          <option value="completed">Completed</option>
+          <option value="incomplete">Incomplete</option>
+        </select>
+
+        {/* Task List */}
+        <div className="bg-gray-100 px-8 py-10 rounded-lg shadow-lg w-full">
+          {filteredTasks.length === 0 ? (
+            <p>No tasks available</p>
+          ) : (
+            filteredTasks.map((task) => <Task key={task.id} task={task} toggleTask={toggleTask} />)
+          )}
         </div>
       </div>
-    );
-  };
-  
+    </div>
+  );
+};
