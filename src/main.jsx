@@ -15,23 +15,22 @@ import Login from "./components/Login.jsx";
 import TaskForm from "./components/TaskForm.jsx";
 import {MyTasks } from "./components/MyTasks.jsx";
 import { TaskProvider } from "./context/TaskContext";
-
 const router = createBrowserRouter([
+  {
+    path: "/login",
+    element: <Login />, // Login page is now separate from LayoutA
+  },
   {
     path: "/",
     element: <LayoutA />,
     children: [
-      { path: "/", element: <Login /> },
       { path: "home", element: <HomePage /> },
-      { path: "login", element: <Login /> }, 
-
       {
         element: <ProtectedRoute />,
         children: [
           { path: "reports", element: <ReportsPage /> },
           { path: "TaskForm", element: <TaskForm /> },
-             // { path: "AddNewAnnouncement", element: <AddNewAnnouncement /> },
-          { path: "tasks", element: <MyTasks/>},
+          { path: "tasks", element: <MyTasks /> },
           { path: "studentsinfo", element: <StudentInformation /> },
           { path: "track", element: <ApplicationStatus /> },
         ],
@@ -39,6 +38,7 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);

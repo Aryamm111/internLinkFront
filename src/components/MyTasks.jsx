@@ -57,7 +57,7 @@ export const MyTasks = () => {
 
         </div>
 
-        <div className="bg-gray-100 min-w-[800px] min-h-[200px] mt-10 px-8 py-10 rounded-lg shadow-lg">
+        <div className="bg-gray-100 mt-10 px-8 py-10 rounded-lg shadow-lg">
           {filteredTasks.length === 0 ? (
             <p className="text-center">No tasks available</p>
           ) : (

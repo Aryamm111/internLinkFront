@@ -15,7 +15,7 @@ export const Task = ({ task, toggleTask }) => {
           type="checkbox"
           className="mr-6 h-6 w-6 cursor-pointer accent-green-500"
           checked={isCompleted}
-          onChange={() => toggleTask(task.id)} // Ensure to pass the correct ID
+          onChange={() => toggleTask(task.id)} 
         />
         <div className="flex-1 min-w-[500px] max-w-[600px]">
           <h2 className={`text-lg font-semibold ${isCompleted ? "line-through text-gray-500" : ""}`}>
