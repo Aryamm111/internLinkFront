@@ -1,9 +1,10 @@
+import "./App.css";
 import React from "react";
 import LayoutA from "./components/LayoutA";
-import "./App.css";
-const App = () => {
-  return <LayoutA />;
-};
+import { UserProvider } from "./UserContext";
 
+const App = () => {
+  return <UserProvider><LayoutA /></UserProvider>;
+};
 
 export default App;

@@ -2,42 +2,43 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { UserProvider, useUser } from "./UseContext.jsx";
+import { UserProvider } from "./UserContext.jsx";
 import LayoutA from "./components/LayoutA";
-import { StudentInfo } from "./components/StudentInfo.jsx";
-import TaskForm  from "./components/TaskForm.jsx";
 import HomePage from "./components/HomePage.jsx";
 import { ReportsPage } from "./components/ReportsPage.jsx";
-import { companySupervisorCards,studentCards ,facultySupervisorCards } from "./components/CardsData,js";
+import { StudentInformation } from "./components/StudentInformation.jsx";
+import { StudentProvider } from "./StudentContext.jsx";
+// import { ReportsProvider } from "./ReportsContext.jsx";
+import ApplicationStatus from "./components/ApplicationStatus.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import Login from "./components/Login.jsx";
+import TaskForm from "./components/TaskForm.jsx";
+import {MyTasks }from "./components/Task.jsx";
+import { TaskProvider } from "./TaskContext";
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <LayoutA />,
+    children: [
+      { path: "/", element: <Login /> },
+      { path: "home", element: <HomePage /> },
+      { path: "login", element: <Login /> }, 
 
-const cardsDataMap = {
-  student: studentCards,
-  companySupervisor: companySupervisorCards,
-  facultySupervisor: facultySupervisorCards
-};
-
-const App = () => {
-  const { userRole } = useUser(); 
-  const cardsData = cardsDataMap[userRole] || [];
-
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <LayoutA />,
-      children: [
-        { path: "studentsinfo", element: <StudentInfo /> },
-        // { path: "reports", element: <ReportsPage /> }
-        { path: "TaskForm", element: <TaskForm />},
-    // { path: "AddNewAnnouncement", element: <AddNewAnnouncement /> },
-        { path: "home", element: <HomePage  cardsData={cardsData} />},
-        { path: "reports", element: <ReportsPage />},
-      ],
-    },
-  ]);
-
-  return <RouterProvider router={router} />;
-};
+      {
+        element: <ProtectedRoute />,
+        children: [
+          { path: "reports", element: <ReportsPage /> },
+          { path: "TaskForm", element: <TaskForm /> },
+             // { path: "AddNewAnnouncement", element: <AddNewAnnouncement /> },
+          { path: "tasks", element: <MyTasks/>},
+          { path: "studentsinfo", element: <StudentInformation /> },
+          { path: "track", element: <ApplicationStatus /> },
+        ],
+      },
+    ],
+  },
+]);
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
@@ -45,7 +46,11 @@ const root = createRoot(rootElement);
 root.render(
   <StrictMode>
     <UserProvider>
-      <App /> 
+      <StudentProvider>
+        <TaskProvider>
+          <RouterProvider router={router} />
+   </TaskProvider>
+      </StudentProvider>
     </UserProvider>
   </StrictMode>
 );

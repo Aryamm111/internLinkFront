@@ -1,9 +1,13 @@
-import React, { useContext } from 'react';
+
 import Table from './Table';
+import React, { useState } from 'react';
 // import { useReports } from '../ReportsContext';
 
 export const ReportsPage = ({ userRole }) => {
-  const { reports } = useReports(); // Fetching reports data from context
+  const [reports, setReports] = useState([
+    { id: 1, studentName: 'Alice Johnson', dueDate: '2025-03-05', status: 'Pending', fileUrl: 'https://example.com/report1.pdf' },
+    { id: 2, studentName: 'Bob Smith', dueDate: '2025-03-04', status: 'Verified', fileUrl: 'https://example.com/report2.pdf' },
+  ]);
 
   const columns = [
     { header: 'No.', key: 'index' }, // Index column for numbering
@@ -28,7 +32,7 @@ export const ReportsPage = ({ userRole }) => {
           {userRole === 'companySupervisor' && row.status === 'Pending' && (
             <button
               className="bg-green-500 text-white px-4 py-1 rounded-xl hover:bg-green-600 transition-colors duration-300"
-              onClick={() => console.log('Verify Report', row.id)} // Replace with your verification logic
+              onClick={() => console.log('Verify Report', row.id)} 
             >
               Verify
             </button>
