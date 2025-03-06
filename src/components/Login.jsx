@@ -1,16 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../UserContext"; // Import UserContext
-
+import { useUser } from "../context/UserContext"; 
 const Login = () => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { login } = useUser(); // ✅ Get the login function from context
-
+  const { login } = useUser(); 
   const handleLogin = async (e) => {
     e.preventDefault();
-    await login(username, password, navigate); // ✅ Call the login function
+    await login(username, password, navigate); 
   };
 
   return (

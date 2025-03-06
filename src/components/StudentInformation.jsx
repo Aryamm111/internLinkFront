@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useStudents } from "../StudentContext";
-import { useUser } from "../UserContext";
+import { useStudents } from "../context/StudentContext";
+import { useUser } from "../context/UserContext";
 import Table from "./Table";
 import AddStudentModal from "./AddStudentModal";
 import ViewStudentModal from "./ViewStudentModal";

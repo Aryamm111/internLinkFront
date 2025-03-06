@@ -2,19 +2,19 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { UserProvider } from "./UserContext.jsx";
+import { UserProvider } from "./context/UserContext.jsx";
 import LayoutA from "./components/LayoutA";
 import HomePage from "./components/HomePage.jsx";
 import { ReportsPage } from "./components/ReportsPage.jsx";
 import { StudentInformation } from "./components/StudentInformation.jsx";
-import { StudentProvider } from "./StudentContext.jsx";
+import { StudentProvider } from "./context/StudentContext.jsx";
 // import { ReportsProvider } from "./ReportsContext.jsx";
 import ApplicationStatus from "./components/ApplicationStatus.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Login from "./components/Login.jsx";
 import TaskForm from "./components/TaskForm.jsx";
 import {MyTasks } from "./components/MyTasks.jsx";
-import { TaskProvider } from "./TaskContext";
+import { TaskProvider } from "./context/TaskContext";
 
 const router = createBrowserRouter([
   {

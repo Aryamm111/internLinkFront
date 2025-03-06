@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useStudents } from '../StudentContext'; // Import the context
+import { useStudents } from '../context/StudentContext'; // Import the context
 
 const ViewStudentModal = ({ show, onClose, studentId }) => {
   const { students } = useStudents(); // Access students from context

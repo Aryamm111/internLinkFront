@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useStudents } from '../StudentContext'; // Import the context
+import { useStudents } from '../context/StudentContext'; // Import the context
 
 const AddStudentModal = ({ show, onClose }) => {
   const [studentId, setStudentId] = useState("");

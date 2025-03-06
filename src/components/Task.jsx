@@ -1,7 +1,7 @@
 import React from "react";
 
 export const Task = ({ task, toggleTask }) => {
-  const isCompleted = task.completed; // Corrected to check the `completed` field
+  const isCompleted = task.completed; 
   console.log("Rendering task:", task);
 
   return (

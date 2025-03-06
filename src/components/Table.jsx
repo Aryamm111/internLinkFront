@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { useUser } from "../UserContext"; // ✅ Import useUser
+import { useUser } from "../context/UserContext"; 
 
 const Table = ({ columns, data, showAddButton, onAddClick }) => {
-  const { userRole } = useUser(); // ✅ Get userRole from context
+  const { userRole } = useUser(); 
   const [page, setPage] = useState(0);
   const rowsPerPage = 7;
   const [filter, setFilter] = useState("");

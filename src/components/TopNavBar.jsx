@@ -1,5 +1,5 @@
 import React from 'react';
-import { useUser } from '../UserContext.jsx';
+import { useUser } from '../context/UserContext.jsx';
 
 const TopNavBar = () => {
   const { userName } = useUser();

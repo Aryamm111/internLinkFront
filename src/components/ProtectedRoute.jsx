@@ -1,10 +1,9 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { useUser } from "../UserContext"; // Import useUser hook
+import { useUser } from "../context/UserContext"; 
 
 const ProtectedRoute = () => {
-  const { isAuthenticated } = useUser(); // ✅ Use isAuthenticated instead of token
-
+  const { isAuthenticated } = useUser(); 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }

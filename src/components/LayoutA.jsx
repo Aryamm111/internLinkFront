@@ -2,7 +2,7 @@ import React from 'react';
 import TopNavBar from './TopNavBar';
 import SideNavBar from './SideNavBar';
 import { Outlet } from 'react-router-dom';
-import { useUser } from '../UserContext';
+import { useUser } from '../context/UserContext';
 const LayoutA = () => {
   const { userRole } = useUser();
   console.log("User Role in LayoutA:", userRole); // Debugging
