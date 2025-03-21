@@ -60,29 +60,9 @@ export const StudentProvider = ({ children }) => {
       alert("Failed to assign faculty supervisor.");
     }
   };
-  const signUp = async (formData, skills) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:8081/register",
-        {
-          ...formData, // Includes fields like name, email, password, studentId, major, etc.
-          skills, // Includes the skills array
-        },
-        { withCredentials: true }
-      );
-
-      alert(response.data); // Notify user of success
-      navigate("/login"); // Redirect to the login or dashboard page
-    } catch (error) {
-      console.error("Error during sign-up:", error);
-      alert("Registration failed. Please try again.");
-    }
-  };
 
   return (
-    <StudentContext.Provider
-      value={{ students, signUp, assignFacultySupervisor }}
-    >
+    <StudentContext.Provider value={{ students, assignFacultySupervisor }}>
       {children}
     </StudentContext.Provider>
   );
