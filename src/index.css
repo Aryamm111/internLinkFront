@@ -8,7 +8,7 @@
   font-weight: 400;
   width: 100%;
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgba(0, 3, 32, 0.87);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -51,7 +51,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: rgb(255, 255, 255);
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -63,6 +63,12 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+input {
+  color: #2d3748;
+}
+input::placeholder {
+  color: #a0aec0;
 }
 
 @media (prefers-color-scheme: light) {

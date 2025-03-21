@@ -4,43 +4,42 @@ import { useUser } from '../context/UserContext';
 
 const navLinksMap = {
   HR_MANAGER: [
-    { name: 'Home', href: '/home' },
-    { name: 'Announcements', href: '/announcements' },
-    { name: 'Applications', href: '/applications' },
-    { name: 'Assign Supervisor', href: '/assign-supervisor' },
+    { name: 'Home', href: '/main/home' },
+    { name: 'Announcements', href: '/main/announcements' },
+    { name: 'Applications', href: '/main/applications' },
+    { name: 'Assign Supervisor', href: '/main/assign-supervisor' },
   ],
   STUDENT: [
-    { name: 'Home', href: '/home' },
-    { name: 'Reports', href: '/uploadReport' },
-    { name: 'Communication', href: '/Communication' },
-    { name: 'Internships opportunities', href: '/internships' },
-    { name: 'Track Application Status', href: '/track' },
-    { name: 'My Tasks', href: '/tasks' },
+    { name: 'Home', href: '/main/home' },
+    { name: 'Reports', href: '/main/uploadReport' },
+    { name: 'Communication', href: '/main/Communication' },
+    { name: 'Internships opportunities', href: '/main/internships' },
+    { name: 'Track Application Status', href: '/main/track' },
+    { name: 'My Tasks', href: '/main/tasks' },
   ],
   COMPANY_SUPERVISOR: [
-    { name: 'Home', href: '/home' },
-    { name: 'Reports', href: '/reports' },
-    { name: 'Communication', href: '/communication' },
-    { name: 'Student Information', href: '/studentsinfo' },
-    { name: 'Assign Task', href: '/TaskForm' },
-    { name: 'Task Progress', href: '/tasks' },
+    { name: 'Home', href: '/main/home' },
+    { name: 'Reports', href: '/main/reports' },
+    { name: 'Communication', href: '/main/communication' },
+    { name: 'Student Information', href: '/main/studentsinfo' },
+    { name: 'Assign Task', href: '/main/TaskForm' },
+    { name: 'Task Progress', href: '/main/tasks' },
   ],
   FACULTY_SUPERVISOR: [
-    { name: 'Home', href: '/home' },
-    { name: 'Reports', href: '/reports' },
-    { name: 'Communication', href: '/communication' },
-    { name: 'Student Information', href: '/studentsinfo' },
-  ],
+    { name: 'Home', href: '/main/home' },
+    { name: 'Reports', href: '/main/reports' },
+    { name: 'Communication', href: '/main/communication' },
+    { name: 'Student Information', href: '/main/studentsinfo' },
+  ]
 };
 
 
 const SideNavBar = () => {
   const { userRole } = useUser();
 
-  // Debugging logs
+ 
   console.log("User Role in SideNavBar:", userRole);
 
-  // Get the navigation links based on the user role
   const navLinks = userRole ? navLinksMap[userRole] || [] : [];
 
   return (

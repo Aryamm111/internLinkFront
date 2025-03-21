@@ -10,7 +10,6 @@ export const MyTasks = () => {
     return <p>Loading tasks...</p>;
   }
 
-  // Calculate progress
   const totalTasks = tasks.length;
   const completedTasks = tasks.filter(task => task.completed).length;
   const progress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
@@ -28,9 +27,8 @@ export const MyTasks = () => {
       <div className="w-full max-w-6xl">
         <h1 className="text-3xl font-bold text-gray-800 mb-6">My Tasks</h1>
 
-        {/* Flex container for progress and filter */}
+
         <div className="flex items-center justify-start mb-4 gap-4">
-          {/* Progress Bar Container */}
           <div className="flex items-center gap-2">
             <div className="w-80 bg-gray-300 h-4 rounded-lg overflow-hidden">
               <div
@@ -43,7 +41,7 @@ export const MyTasks = () => {
             </span>
           </div>
 
-{/* Filter Dropdown (Right-aligned) */}
+
 <select
   className="bg-white border-2 border-gray-500 text-black px-4 py-2 rounded-lg ml-auto focus:outline-none focus:ring-2 focus:ring-pink-500 hover:shadow-lg transition-shadow duration-300"
   value={filter}
