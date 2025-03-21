@@ -40,7 +40,7 @@ export const studentCards = [
   },
   {
     title: 'Track Application Status',
-    description: 'Check the status of your internship applications in real-time.',
+    description: 'Check the status of your internship applications ',
     buttonText: 'Track',
     onClick: () => console.log('Navigate to Application Status'),
   },
