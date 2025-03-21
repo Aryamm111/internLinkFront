@@ -7,17 +7,20 @@ const StudentContext = createContext();
 export const useStudents = () => useContext(StudentContext);
 
 export const StudentProvider = ({ children }) => {
-  const { userRole, userId } = useUser(); 
+  const { userRole, userId } = useUser();
   const [students, setStudents] = useState([]);
 
-  console.log("StudentProvider - userRole:", userRole, "userId:", userId); 
+  console.log("StudentProvider - userRole:", userRole, "userId:", userId);
 
   useEffect(() => {
     const fetchStudents = async () => {
       try {
         if (!userRole || !userId) return;
 
-        console.log("Fetching students with:", { supervisorType: userRole, supervisorId: userId });
+        console.log("Fetching students with:", {
+          supervisorType: userRole,
+          supervisorId: userId,
+        });
 
         const response = await axios.get("http://localhost:8081/api/students", {
           params: { supervisorType: userRole, supervisorId: userId },
@@ -31,21 +34,23 @@ export const StudentProvider = ({ children }) => {
     };
 
     fetchStudents();
-  }, [userRole, userId]); 
+  }, [userRole, userId]);
 
   const assignFacultySupervisor = async (studentId) => {
     try {
       const response = await axios.post(
-        `http://localhost:8081/api/students/${studentId}/add`, 
+        `http://localhost:8081/api/students/${studentId}/add`,
         {},
-        { withCredentials: true } 
+        { withCredentials: true }
       );
 
       alert("Student assigned successfully!");
 
       setStudents((prevStudents) =>
         prevStudents.map((student) =>
-          student.studentId === studentId ? { ...student, assigned: true } : student
+          student.studentId === studentId
+            ? { ...student, assigned: true }
+            : student
         )
       );
 
@@ -56,8 +61,11 @@ export const StudentProvider = ({ children }) => {
     }
   };
 
+
   return (
-    <StudentContext.Provider value={{ students, assignFacultySupervisor }}>
+    <StudentContext.Provider
+      value={{ students, assignFacultySupervisor }}
+    >
       {children}
     </StudentContext.Provider>
   );
