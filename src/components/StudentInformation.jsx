@@ -19,7 +19,9 @@ export const StudentInformation = () => {
 
   return (
     <div className="min-h-screen p-8 w-full">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">Student Information</h1>
+      <h1 className="text-3xl font-bold text-gray-800 mb-6">
+        Student Information
+      </h1>
 
       <div className="w-full bg-gray-100 shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow">
         {students.length === 0 ? (
@@ -27,7 +29,11 @@ export const StudentInformation = () => {
         ) : (
           <Table
             columns={[
-              { header: "No.", key: "index", render: (_, __, rowIndex) => rowIndex + 1 },
+              {
+                header: "No.",
+                key: "index",
+                render: (_, __, rowIndex) => rowIndex + 1,
+              },
               { header: "Student Name", key: "name" },
               { header: "Student ID", key: "studentId" },
               { header: "Email", key: "email" },
@@ -45,13 +51,16 @@ export const StudentInformation = () => {
               },
             ]}
             data={students}
-            showAddButton={true} // ✅ Show Add button only where needed
+            showAddButton={true}
             onAddClick={() => setShowAddModal(true)}
           />
         )}
       </div>
 
-      <AddStudentModal show={showAddModal} onClose={() => setShowAddModal(false)} />
+      <AddStudentModal
+        show={showAddModal}
+        onClose={() => setShowAddModal(false)}
+      />
       <ViewStudentModal
         show={showViewModal}
         onClose={() => setShowViewModal(false)}
