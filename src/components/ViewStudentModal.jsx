@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useStudents } from '../context/StudentContext'; // Import the context
+import React, { useState, useEffect } from "react";
+import { useStudents } from "../context/StudentContext";
 
 const ViewStudentModal = ({ show, onClose, studentId }) => {
-  const { students } = useStudents(); // Access students from context
+  const { students } = useStudents();
   const [studentDetails, setStudentDetails] = useState(null);
 
-  // Fetch student details when the modal is shown
   useEffect(() => {
     if (show && studentId) {
       const student = students.find((s) => s.studentId === studentId);
@@ -18,7 +17,9 @@ const ViewStudentModal = ({ show, onClose, studentId }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50 transition-opacity duration-300">
       <div className="bg-white w-full max-w-lg p-8 rounded-lg shadow-lg transform transition-transform duration-300">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Student Details</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          Student Details
+        </h2>
         {studentDetails ? (
           <div className="space-y-4">
             <p className="text-lg">
@@ -34,7 +35,8 @@ const ViewStudentModal = ({ show, onClose, studentId }) => {
               <strong>Location:</strong> {studentDetails.location}
             </p>
             <p className="text-lg">
-              <strong>Company Supervisor:</strong> {studentDetails.companySupervisorName}
+              <strong>Company Supervisor:</strong>{" "}
+              {studentDetails.companySupervisorName}
             </p>
           </div>
         ) : (
