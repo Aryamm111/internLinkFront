@@ -1,45 +1,106 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useUser } from '../context/UserContext'; 
+import React from "react";
+import { Link } from "react-router-dom";
+import { useUser } from "../context/UserContext";
+import {
+  UilEstate,
+  UilFileGraph,
+  UilCommentsAlt,
+  UilUserExclamation,
+  UilFilePlusAlt,
+  UilCheckSquare,
+  UilBriefcaseAlt,
+  UilListUl,
+  UilUserCheck,
+  UilMegaphone,
+  UilFilesLandscapesAlt,
+} from "@iconscout/react-unicons";
+import { useLocation } from "react-router-dom";
 
 const navLinksMap = {
   HR_MANAGER: [
-    { name: 'Home', href: '/main/home' },
-    { name: 'Announcements', href: '/main/announcements' },
-    { name: 'Applications', href: '/main/applications' },
-    { name: 'Assign Supervisor', href: '/main/assign-supervisor' },
+    { name: "Home", href: "/main/home", icon: <UilEstate /> },
+    {
+      name: "Announcements",
+      href: "/main/announcements",
+      icon: <UilMegaphone />,
+    },
+    {
+      name: "Applications",
+      href: "/main/applications",
+      icon: <UilFilesLandscapesAlt />,
+    },
+    { name: "Assign Supervisor", href: "/main/assign-supervisor" },
   ],
   STUDENT: [
-    { name: 'Home', href: '/main/home' },
-    { name: 'Reports', href: '/main/uploadReport' },
-    { name: 'Communication', href: '/main/Communication' },
-    { name: 'Internships opportunities', href: '/main/internships' },
-    { name: 'Track Application Status', href: '/main/track' },
-    { name: 'My Tasks', href: '/main/tasks' },
+    { name: "Home", href: "/main/home", icon: <UilEstate /> },
+    { name: "Reports", href: "/main/uploadReport", icon: <UilFileGraph /> },
+    {
+      name: "Communication",
+      href: "/main/Communication",
+      icon: <UilCommentsAlt />,
+    },
+    {
+      name: "Internships opportunities",
+      href: "/main/internships",
+      icon: <UilBriefcaseAlt />,
+    },
+    {
+      name: "Track Application Status",
+      href: "/main/track",
+      icon: <UilUserCheck />,
+    },
+    { name: "My Tasks", href: "/main/tasks", icon: <UilListUl /> },
   ],
   COMPANY_SUPERVISOR: [
-    { name: 'Home', href: '/main/home' },
-    { name: 'Reports', href: '/main/reports' },
-    { name: 'Communication', href: '/main/communication' },
-    { name: 'Student Information', href: '/main/studentsinfo' },
-    { name: 'Assign Task', href: '/main/TaskForm' },
-    { name: 'Task Progress', href: '/main/tasks' },
+    {
+      name: "Home",
+      href: "/main/home",
+      icon: <UilEstate />,
+    },
+    {
+      name: "Reports",
+      href: "/main/reports",
+      icon: <UilFileGraph />,
+    },
+    {
+      name: "Communication",
+      href: "/main/communication",
+      icon: <UilCommentsAlt />,
+    },
+    {
+      name: "Student Information",
+      href: "/main/studentsinfo",
+      icon: <UilUserExclamation />,
+    },
+    {
+      name: "Assign Task",
+      href: "/main/TaskForm",
+      icon: <UilFilePlusAlt />,
+    },
+    {
+      name: "Task Progress",
+      href: "/main/tasks",
+      icon: <UilCheckSquare />,
+    },
   ],
   FACULTY_SUPERVISOR: [
-    { name: 'Home', href: '/main/home' },
-    { name: 'Reports', href: '/main/reports' },
-    { name: 'Communication', href: '/main/communication' },
-    { name: 'Student Information', href: '/main/studentsinfo' },
-  ]
+    { name: "Home", href: "/main/home", icon: <UilEstate /> },
+    { name: "Reports", href: "/main/reports", icon: <UilFileGraph /> },
+    {
+      name: "Communication",
+      href: "/main/communication",
+      icon: <UilCommentsAlt />,
+    },
+    {
+      name: "Student Information",
+      href: "/main/studentsinfo",
+      icon: <UilUserExclamation />,
+    },
+  ],
 };
-
-
 const SideNavBar = () => {
   const { userRole } = useUser();
-
- 
-  console.log("User Role in SideNavBar:", userRole);
-
+  const { pathname } = useLocation();
   const navLinks = userRole ? navLinksMap[userRole] || [] : [];
 
   return (
@@ -49,20 +110,34 @@ const SideNavBar = () => {
       </div>
       <nav>
         <ul className="space-y-4">
-          {navLinks.length === 0 ? (
-            <p className="text-gray-500">No navigation items available</p>
-          ) : (
-            navLinks.map((link, index) => (
+          {navLinks.map((link, index) => {
+            const isActive = pathname === link.href;
+            return (
               <li key={index}>
                 <Link
                   to={link.href}
-                  className="block text-gray-700 text-sm font-medium rounded hover:bg-blue-50 hover:text-blue-600 p-2 transition focus:text-blue-600"
+                  className={`flex items-center text-sm font-medium rounded p-2 transition ${
+                    isActive
+                      ? "text-blue-600"
+                      : "text-gray-700 hover:text-blue-600 focus:text-blue-600"
+                  }`}
                 >
+                  {link.icon && (
+                    <span className="mr-2">
+                      {React.cloneElement(link.icon, {
+                        color:
+                          link.icon.props.color ||
+                          (isActive ? "#2563EB" : "#6B7280"),
+                        size: link.icon.props.size || 20, // Default size set here
+                      })}
+                    </span>
+                  )}
+
                   {link.name}
                 </Link>
               </li>
-            ))
-          )}
+            );
+          })}
         </ul>
       </nav>
     </aside>
