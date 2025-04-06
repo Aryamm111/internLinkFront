@@ -9,15 +9,23 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const { login } = useUser();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError(""); // Clear any previous errors
     if (isForgotPassword) {
       console.log("Password reset link sent to:", email);
     } else {
-      await login(email, password, navigate);
+      try {
+        await login(email, password, navigate);
+      } catch (err) {
+        console.error("Login error inside the component :", err.message);
+        setError("Invalid email or password. Please try again.");
+        console.log("Error state:", error); // Check if error state updates
+      }
     }
   };
 
@@ -126,6 +134,12 @@ const Login = () => {
             >
               {isForgotPassword ? "Submit" : "Log in"}
             </button>
+            {console.log("Rendering with error:", error)}
+            {error && (
+              <div className="mt-4 text-center text-red-500 text-sm">
+                {error}
+              </div>
+            )}
           </form>
         </div>
         <div className="w-1/2 relative"></div>
