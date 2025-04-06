@@ -9,60 +9,61 @@ export const useStudents = () => useContext(StudentContext);
 export const StudentProvider = ({ children }) => {
   const { userRole, userId } = useUser();
   const [students, setStudents] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  console.log("StudentProvider - userRole:", userRole, "userId:", userId);
-
-  useEffect(() => {
-    const fetchStudents = async () => {
-      try {
-        if (!userRole || !userId) return;
-
-        console.log("Fetching students with:", {
+  // Fetch all students once on mount
+  const fetchStudents = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("http://localhost:8081/api/students", {
+        params: {
           supervisorType: userRole,
           supervisorId: userId,
-        });
-
-        const response = await axios.get("http://localhost:8081/api/students", {
-          params: { supervisorType: userRole, supervisorId: userId },
-          withCredentials: true,
-        });
-
-        setStudents(response.data);
-      } catch (error) {
-        console.error("Error fetching students:", error);
+        },
+        withCredentials: true,
+      });
+      setStudents(response.data);
+      if (response.data.length > 0) {
+        setSelectedStudent(response.data[0]);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching students:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchStudents();
-  }, [userRole, userId]);
-
+  // Assign supervisor (keep if needed)
   const assignFacultySupervisor = async (studentId) => {
     try {
-      const response = await axios.post(
+      await axios.post(
         `http://localhost:8081/api/students/${studentId}/add`,
         {},
         { withCredentials: true }
       );
-
-      alert("Student assigned successfully!");
-
-      setStudents((prevStudents) =>
-        prevStudents.map((student) =>
-          student.studentId === studentId
-            ? { ...student, assigned: true }
-            : student
+      setStudents((prev) =>
+        prev.map((s) =>
+          s.studentId === studentId ? { ...s, assigned: true } : s
         )
       );
-
-      return response.data;
     } catch (error) {
-      console.error("Error assigning faculty supervisor:", error);
-      alert("Failed to assign faculty supervisor.");
+      console.error("Error assigning supervisor:", error);
+      throw error;
     }
   };
 
   return (
-    <StudentContext.Provider value={{ students, assignFacultySupervisor }}>
+    <StudentContext.Provider
+      value={{
+        students,
+        selectedStudent,
+        loading,
+        setSelectedStudent,
+        assignFacultySupervisor,
+        fetchStudents, // Only for refresh if needed
+      }}
+    >
       {children}
     </StudentContext.Provider>
   );
