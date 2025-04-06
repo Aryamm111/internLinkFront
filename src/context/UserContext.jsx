@@ -76,11 +76,23 @@ export const UserProvider = ({ children }) => {
         console.log("Login successful! Fetching user session...");
         await fetchUserSession();
         navigate("/main");
+      } else if (response.status === 401) {
+        console.error("Invalid credentials");
+        throw new Error("Invalid email or password. Please try again.");
       } else {
-        console.error("Login failed:", response.status, response.statusText);
+        console.error(
+          "Unexpected error:",
+          response.status,
+          response.statusText
+        );
+        throw new Error(
+          "An unexpected error occurred. Please try again later."
+        );
       }
     } catch (error) {
-      console.error("Error during login:", error);
+      console.error("Error during login:", error.message);
+
+      throw error;
     }
   };
 
