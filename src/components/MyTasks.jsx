@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTasks } from "../context/TaskContext";
 import { Task } from "./Task";
 
 export const MyTasks = () => {
-  const { tasks, loading, toggleTask } = useTasks();
+  const { tasks, loading, toggleTask, fetchTasks } = useTasks();
   const [filter, setFilter] = useState("all");
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
 
   if (loading) {
     return <p>Loading tasks...</p>;
   }
 
   const totalTasks = tasks.length;
-  const completedTasks = tasks.filter(task => task.completed).length;
+  const completedTasks = tasks.filter((task) => task.completed).length;
   const progress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
 
   const filteredTasks = Array.isArray(tasks)
@@ -27,7 +31,6 @@ export const MyTasks = () => {
       <div className="w-full max-w-6xl">
         <h1 className="text-3xl font-bold text-gray-800 mb-6">My Tasks</h1>
 
-
         <div className="flex items-center justify-start mb-4 gap-4">
           <div className="flex items-center gap-2">
             <div className="w-80 bg-gray-300 h-4 rounded-lg overflow-hidden">
@@ -41,21 +44,18 @@ export const MyTasks = () => {
             </span>
           </div>
 
-
-<select
-  className="bg-white border-2 border-gray-500 text-black px-4 py-2 rounded-lg ml-auto focus:outline-none focus:ring-2 focus:ring-pink-500 hover:shadow-lg transition-shadow duration-300"
-  value={filter}
-  onChange={(e) => setFilter(e.target.value)}
->
-  <option value="all">All Tasks</option>
-  <option value="completed">Completed</option>
-  <option value="incomplete">Incomplete</option>
-</select>
-
-
+          <select
+            className="bg-white border-2 border-gray-500 text-black px-4 py-2 rounded-lg ml-auto focus:outline-none focus:ring-2 focus:ring-pink-500 hover:shadow-lg transition-shadow duration-300"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+          >
+            <option value="all">All Tasks</option>
+            <option value="completed">Completed</option>
+            <option value="incomplete">Incomplete</option>
+          </select>
         </div>
 
-        <div className="bg-gray-100 mt-10 px-8 py-10 rounded-lg shadow-lg">
+        <div className="bg-[#F5F5F5] mt-10 px-8 py-10 rounded-lg shadow-lg">
           {filteredTasks.length === 0 ? (
             <p className="text-center">No tasks available</p>
           ) : (

@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        volkhov: ['Volkhov', 'serif'], // Adding Volkhov font
+        volkhov: ['Volkhov', 'serif'], 
       },
       colors: {
         customBlue: '#181E4B', // Adding the custom blue color

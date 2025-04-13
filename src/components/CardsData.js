@@ -1,7 +1,7 @@
 export const hrManagerCards = [
   {
     title: 'Announcement Management',
-    description: 'Manage internship postings by creating, editing, or removing announcements.',
+    description: 'Manage internship postings by creating, editing, or removing .',
     buttonText: 'Manage',
     onClick: () => console.log('Navigate to Announcement Management'),
   },
@@ -13,7 +13,10 @@ export const hrManagerCards = [
   },
   {
     title: 'Assign Supervisor',
-    description: 'Assign supervisors to students.',
+
+    description: `Assign supervisors to students
+    `,
+
     buttonText: 'Assign',
     onClick: () => console.log('Navigate to Assign Supervisor'),
   },

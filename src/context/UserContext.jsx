@@ -10,6 +10,9 @@ export const UserProvider = ({ children }) => {
   const [userName, setUserName] = useState(localStorage.getItem("userName"));
   const [userEmail, setUserEmail] = useState(localStorage.getItem("userEmail"));
   const [userId, setUserId] = useState(localStorage.getItem("userId"));
+  const [userMajor, setUserMajor] = useState(null);
+  const [userGpa, setUserGpa] = useState(null);
+  const [userSkills, setUserSkills] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!localStorage.getItem("userId")
   );
@@ -41,6 +44,14 @@ export const UserProvider = ({ children }) => {
         setUserRole(data.role);
         setIsAuthenticated(true);
 
+        if (data.role === "Student") {
+          // Save student-specific fields only for Students
+          setUserMajor(data.major);
+          setUserGpa(data.gpa);
+          setUserSkills(data.skills || []);
+        }
+
+        // Save to local storage
         localStorage.setItem("userId", data.userId);
         localStorage.setItem("userName", data.username);
         localStorage.setItem("userEmail", data.email);

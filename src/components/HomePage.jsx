@@ -10,7 +10,7 @@ import {
 } from "./CardsData.js";
 
 const cardsDataMap = {
-  HRMANAGER: hrManagerCards,
+  HR_MANAGER: hrManagerCards,
   STUDENT: studentCards,
   COMPANY_SUPERVISOR: companySupervisorCards,
   FACULTY_SUPERVISOR: facultySupervisorCards,
@@ -22,7 +22,7 @@ const HomePage = () => {
   const cardsData = cardsDataMap[userRole] || [];
   const getDynamicGridStyles = (cards) => {
     if (cards.length === 5) {
-      return "grid grid-cols-2 gap-4"; // Two columns for the top row
+      return "grid grid-cols-2 gap-4"; 
     } else if (cards.length === 4) {
       return "grid grid-cols-2 gap-4";
     } else if (cards.length === 3) {
@@ -36,7 +36,6 @@ const HomePage = () => {
     if (cards.length === 5) {
       return (
         <>
-          {/* Top row: 2 cards */}
           <div className="grid grid-cols-2 gap-4">
             {cards.slice(0, 2).map((card, index) => (
               <HomePageCard
@@ -48,7 +47,6 @@ const HomePage = () => {
               />
             ))}
           </div>
-          {/* Bottom row: 3 cards */}
           <div className="grid grid-cols-3 gap-4 mt-4">
             {cards.slice(2).map((card, index) => (
               <HomePageCard
@@ -64,7 +62,6 @@ const HomePage = () => {
       );
     }
 
-    // Default rendering for all other cases
     return (
       <div className={getDynamicGridStyles(cards)}>
         {cards.map((card, index) => (
@@ -81,9 +78,10 @@ const HomePage = () => {
   };
 
   return (
-    <div className="bg-red px-7 pt-9">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">Home</h1>
-      <div className="bg-gray-100 px-8 py-10 rounded-lg z-20">
+    <div className="bg-white bg-opacity-10  px-7 pt-9">
+      <h1>Home</h1>
+
+      <div className="bg-[#F5F5F5] px-8 py-10  rounded-lg ">
         {renderCards(cardsData)}
       </div>
     </div>

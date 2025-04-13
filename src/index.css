@@ -70,7 +70,19 @@ input {
 input::placeholder {
   color: #a0aec0;
 }
-
+/* styles/globals.css */
+.scroll-custom::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scroll-custom::-webkit-scrollbar-thumb {
+  background: rgb(255, 245, 245); /* blue-300 */
+  border-radius: 10px;
+}
+.scroll-custom::-webkit-scrollbar-track {
+  background: rgb(227, 227, 227); /* blue-100 */
+  border-radius: 10px;
+}
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

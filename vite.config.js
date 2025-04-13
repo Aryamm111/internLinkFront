@@ -7,5 +7,13 @@ export default defineConfig({
   css: {
     postcss: './postcss.config.js', 
   },
+  server: {
+    host: true, 
+    port: 5173,
+    allowedHosts: ['a218-212-62-98-0.ngrok-free.app'], // Add your ngrok URL here
+  },
+  
+
+
   plugins: [react()],
 })

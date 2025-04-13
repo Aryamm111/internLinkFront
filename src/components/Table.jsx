@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { useUser } from "../context/UserContext"; 
+import { useUser } from "../context/UserContext";
 
 const Table = ({ columns, data, showAddButton, onAddClick }) => {
-  const { userRole } = useUser(); 
+  const { userRole } = useUser();
   const [page, setPage] = useState(0);
   const rowsPerPage = 7;
   const [filter, setFilter] = useState("");
@@ -55,14 +55,13 @@ const Table = ({ columns, data, showAddButton, onAddClick }) => {
           onChange={(e) => setFilter(e.target.value)}
           className="px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-200 ease-in-out"
         />
-        {showAddButton && userRole === "FACULTY_SUPERVISOR" && ( 
+        {showAddButton && userRole === "FACULTY_SUPERVISOR" && (
           <button
             onClick={onAddClick}
             className="bg-blue-500 text-white p-2 rounded-lg hover:bg-pink-600 transition-colors duration-300 ml-4"
           >
             <AiOutlinePlus size={16} />
           </button>
-          
         )}
       </div>
       <table className="min-w-full bg-white border">
@@ -76,36 +75,49 @@ const Table = ({ columns, data, showAddButton, onAddClick }) => {
               >
                 {col.header}
                 {sortConfig.key === col.key && (
-                  <span>{sortConfig.direction === "ascending" ? " ↑" : " ↓"}</span>
+                  <span>
+                    {sortConfig.direction === "ascending" ? " ↑" : " ↓"}
+                  </span>
                 )}
               </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {paginatedData.map((row, rowIndex) => (
-            <tr
-              key={row.id}
-              className={`${
-                rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"
-              } hover:bg-gray-100 transition duration-150 ease-in-out`}
-            >
-              {columns.map((col, colIndex) => (
-                <td
-                  key={colIndex}
-                  className={`py-3 px-4 border-b text-gray-700 ${
-                    col.className ? col.className(row[col.key]) : ""
-                  }`}
-                >
-                  {col.key === "index"
-                    ? rowIndex + 1
-                    : col.render
-                    ? col.render(row[col.key], row)
-                    : row[col.key] || "-"}
-                </td>
-              ))}
+          {paginatedData.length === 0 ? (
+            <tr>
+              <td
+                colSpan={columns.length}
+                className="text-center text-gray-500 py-4"
+              >
+                No students available
+              </td>
             </tr>
-          ))}
+          ) : (
+            paginatedData.map((row, rowIndex) => (
+              <tr
+                key={row.id || rowIndex}
+                className={`${
+                  rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"
+                } hover:bg-gray-100 transition duration-150 ease-in-out`}
+              >
+                {columns.map((col, colIndex) => (
+                  <td
+                    key={colIndex}
+                    className={`py-3 px-4 border-b text-gray-700 ${
+                      col.className ? col.className(row[col.key]) : ""
+                    }`}
+                  >
+                    {col.key === "index"
+                      ? rowIndex + 1
+                      : col.render
+                      ? col.render(row[col.key], row)
+                      : row[col.key] || "-"}
+                  </td>
+                ))}
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
       <div className="mt-4 flex justify-between items-center">
@@ -122,7 +134,10 @@ const Table = ({ columns, data, showAddButton, onAddClick }) => {
         <button
           onClick={() =>
             setPage((prev) =>
-              Math.min(prev + 1, Math.ceil(filteredData.length / rowsPerPage) - 1)
+              Math.min(
+                prev + 1,
+                Math.ceil(filteredData.length / rowsPerPage) - 1
+              )
             )
           }
           disabled={page === Math.ceil(filteredData.length / rowsPerPage) - 1}

@@ -81,7 +81,7 @@ const MainPage = () => {
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 mt-20 mb-20 gap-16">
-              <div className="group bg-white h-80 p-6 rounded-xl shadow-md transition-transform duration-300 hover:scale-105 hover:shadow-pink-200 hover:shadow-lg">
+              <div className="group bg-white h-80 p-6 rounded-xl shadow-md transition-transform duration-300 hover:scale-105 hover:shadow-pink-100 hover:shadow-lg">
                 <img
                   src={match}
                   alt="Decorative Image"
@@ -97,7 +97,7 @@ const MainPage = () => {
                 </p>
               </div>
 
-              <div className="group bg-white h-80 p-6 rounded-xl shadow-md transition-transform duration-300 hover:scale-105 hover:shadow-pink-200 hover:shadow-lg">
+              <div className="group bg-white h-80 p-6 rounded-xl shadow-md transition-transform duration-300 hover:scale-105 hover:shadow-pink-100 hover:shadow-lg">
                 <img
                   src={progress}
                   alt="Decorative Image"
@@ -112,7 +112,7 @@ const MainPage = () => {
                 </p>
               </div>
 
-              <div className="group bg-white h-80 p-6 rounded-xl shadow-md transition-transform duration-300 hover:scale-105 hover:shadow-pink-200 hover:shadow-lg">
+              <div className="group bg-white h-80 p-6 rounded-xl shadow-md transition-transform duration-300 hover:scale-105 hover:shadow-pink-100 hover:shadow-lg">
                 <img
                   src={connect}
                   alt="Decorative Image"
