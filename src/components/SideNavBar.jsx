@@ -54,36 +54,10 @@ const navLinksMap = {
       icon: <UilUserCheck />,
     },
     { name: "My Tasks", href: "/main/tasks", icon: <UilListUl /> },
-    { name: "Home", href: "/main/home", icon: <UilEstate /> },
-    { name: "Reports", href: "/main/uploadReport", icon: <UilFileGraph /> },
-    {
-      name: "Communication",
-      href: "/main/Communication",
-      icon: <UilCommentsAlt />,
-    },
-    {
-      name: "Internships opportunities",
-      href: "/main/internships",
-      icon: <UilBriefcaseAlt />,
-    },
-    {
-      name: "Track Application Status",
-      href: "/main/track",
-      icon: <UilUserCheck />,
-    },
-    { name: "My Tasks", href: "/main/tasks", icon: <UilListUl /> },
   ],
   COMPANY_SUPERVISOR: [
-    {
-      name: "Home",
-      href: "/main/home",
-      icon: <UilEstate />,
-    },
-    {
-      name: "Reports",
-      href: "/main/reports",
-      icon: <UilFileGraph />,
-    },
+    { name: "Home", href: "/main/home", icon: <UilEstate /> },
+    { name: "Reports", href: "/main/reports", icon: <UilFileGraph /> },
     {
       name: "Communication",
       href: "/main/communication",
@@ -94,11 +68,7 @@ const navLinksMap = {
       href: "/main/studentsinfo",
       icon: <UilUserExclamation />,
     },
-    {
-      name: "Assign Task",
-      href: "/main/TaskForm",
-      icon: <UilFilePlusAlt />,
-    },
+    { name: "Assign Task", href: "/main/TaskForm", icon: <UilFilePlusAlt /> },
     {
       name: "Task Progress",
       href: "/main/taskprogress",
@@ -119,20 +89,8 @@ const navLinksMap = {
       icon: <UilUserExclamation />,
     },
   ],
-    { name: "Home", href: "/main/home", icon: <UilEstate /> },
-    { name: "Reports", href: "/main/reports", icon: <UilFileGraph /> },
-    {
-      name: "Communication",
-      href: "/main/communication",
-      icon: <UilCommentsAlt />,
-    },
-    {
-      name: "Student Information",
-      href: "/main/studentsinfo",
-      icon: <UilUserExclamation />,
-    },
-  ],
 };
+
 const SideNavBar = () => {
   const { userRole } = useUser();
   const { pathname } = useLocation();
@@ -156,39 +114,18 @@ const SideNavBar = () => {
                       ? "text-blue-600"
                       : "text-gray-700 hover:text-blue-600 focus:text-blue-600"
                   }`}
-                  className={`flex items-center text-sm font-medium rounded p-2 transition ${
-                    isActive
-                      ? "text-blue-600"
-                      : "text-gray-700 hover:text-blue-600 focus:text-blue-600"
-                  }`}
                 >
                   {link.icon && (
                     <span className="mr-2">
                       {React.cloneElement(link.icon, {
-                        color:
-                          link.icon.props.color ||
-                          (isActive ? "#2563EB" : "#6B7280"),
+                        color: isActive ? "#2563EB" : "#6B7280",
                         size: link.icon.props.size || 20, // Default size set here
                       })}
                     </span>
                   )}
-
-                  {link.icon && (
-                    <span className="mr-2">
-                      {React.cloneElement(link.icon, {
-                        color:
-                          link.icon.props.color ||
-                          (isActive ? "#2563EB" : "#6B7280"),
-                        size: link.icon.props.size || 20, // Default size set here
-                      })}
-                    </span>
-                  )}
-
                   {link.name}
                 </Link>
               </li>
-            );
-          })}
             );
           })}
         </ul>
@@ -198,4 +135,3 @@ const SideNavBar = () => {
 };
 
 export default SideNavBar;
-
