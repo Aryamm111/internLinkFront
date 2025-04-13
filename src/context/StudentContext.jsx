@@ -12,7 +12,6 @@ export const StudentProvider = ({ children }) => {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // Fetch all students once on mount
   const fetchStudents = async () => {
     try {
       setLoading(true);
@@ -34,7 +33,6 @@ export const StudentProvider = ({ children }) => {
     }
   };
 
-  // Assign supervisor (keep if needed)
   const assignFacultySupervisor = async (studentId) => {
     try {
       await axios.post(
@@ -61,7 +59,7 @@ export const StudentProvider = ({ children }) => {
         loading,
         setSelectedStudent,
         assignFacultySupervisor,
-        fetchStudents, // Only for refresh if needed
+        fetchStudents,
       }}
     >
       {children}
