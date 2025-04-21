@@ -18,7 +18,7 @@ const InternshipCard = ({
   maxStudents,
   imageUrl,
   status,
-  isActive, // New prop for active/deleted state
+  isActive,
   buttonType = "status",
 }) => {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const InternshipCard = ({
   const displayedImage = imageUrl;
 
   const handleEditClick = () => {
-    if (isActive == "deleted") return; // Prevent editing if not active
+    if (isActive == "deleted") return;
     navigate("/main/addannouncements", {
       state: {
         internship: {
@@ -63,7 +63,7 @@ const InternshipCard = ({
   };
 
   const handleApplyClick = () => {
-    if (isActive == "deleted") return; // Prevent applying if not active
+    if (isActive == "deleted") return;
     navigate(`/main/internshipDetails/internships/${id}`);
   };
 

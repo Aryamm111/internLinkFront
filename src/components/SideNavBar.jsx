@@ -119,7 +119,7 @@ const SideNavBar = () => {
                     <span className="mr-2">
                       {React.cloneElement(link.icon, {
                         color: isActive ? "#2563EB" : "#6B7280",
-                        size: link.icon.props.size || 20, // Default size set here
+                        size: link.icon.props.size || 20, 
                       })}
                     </span>
                   )}

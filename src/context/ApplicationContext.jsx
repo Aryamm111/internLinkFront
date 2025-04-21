@@ -22,30 +22,28 @@ export const ApplicationProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, [setLoading, setApplications]); // Dependencies for stable function
+  }, [setLoading, setApplications]); 
 
   const applyForInternship = async (
     internshipId,
     studentId,
     internshipTitle,
     applicationLetter,
-    academicRecord, // Add academicRecord
-    cv, // Add cv
+    academicRecord, 
+    cv, 
     skills
   ) => {
     try {
-      // Create FormData to handle file uploads
       const formData = new FormData();
       formData.append("studentId", studentId);
       formData.append("internshipTitle", internshipTitle);
       formData.append("applicationLetter", applicationLetter);
-      formData.append("academicRecord", academicRecord); // Add academicRecord
+      formData.append("academicRecord", academicRecord); 
       formData.append("cv", cv); // Add cv
       formData.append("skills", skills);
 
-      // Send POST request
       const response = await axios.post(
-        `http://localhost:8081/api/applications/${internshipId}/apply`, // Backend URL
+        `http://localhost:8081/api/applications/${internshipId}/apply`, 
         formData,
         {
           withCredentials: true,

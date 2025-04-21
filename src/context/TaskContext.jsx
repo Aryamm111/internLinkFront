@@ -117,7 +117,6 @@ export const TaskProvider = ({ children }) => {
     }
   };
 
-  
   const fetchStudentsTasksForSupervisor = async () => {
     try {
       const response = await axios.get(
@@ -140,14 +139,14 @@ export const TaskProvider = ({ children }) => {
       value={{
         tasks,
         taskProgress,
-        studentTaskBreakdown, // NEW: Expose breakdown for specific student
+        studentTaskBreakdown,
         loading,
         fetchTasks,
         fetchTaskProgress,
         toggleTask,
         createTask,
         fetchTasksForStudent,
-        fetchStudentsTasksForSupervisor, // NEW: Expose fetchTasksForStudent function
+        fetchStudentsTasksForSupervisor,
       }}
     >
       {children}

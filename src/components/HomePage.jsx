@@ -1,6 +1,6 @@
 import React from "react";
 import HomePageCard from "./HomePageCard";
-import { useUser } from "../context/UserContext.jsx"; // Import the context hook
+import { useUser } from "../context/UserContext.jsx"; 
 
 import {
   hrManagerCards,

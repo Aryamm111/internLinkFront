@@ -93,7 +93,7 @@ const ApplicationsTableWrapper = () => {
         <Table
           columns={applicationColumns}
           data={applications}
-          showAddButton={false} // No "Add" button for this table
+          showAddButton={false}
         />
       </div>
     </div>

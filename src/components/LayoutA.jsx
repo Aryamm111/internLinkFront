@@ -3,7 +3,7 @@ import TopNavBar from "./TopNavBar";
 import SideNavBar from "./SideNavBar";
 import { Outlet } from "react-router-dom";
 import { useUser } from "../context/UserContext";
-import imageSrc from "../assets/bg2.png"; // Ensure this path points to your image
+import imageSrc from "../assets/bg2.png"; 
 
 const LayoutA = () => {
   const { userRole } = useUser();

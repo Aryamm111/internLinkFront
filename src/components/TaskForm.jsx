@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useTasks } from "../context/TaskContext"; // Import the TaskContext hook
+import { useTasks } from "../context/TaskContext";
 import {
   UilLabelAlt,
   UilUser,

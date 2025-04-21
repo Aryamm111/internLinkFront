@@ -2,21 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useInternships } from "../context/InternshipContext";
 import { useUser } from "../context/UserContext";
-import { UilMapMarker } from "@iconscout/react-unicons"; // Location icon
-import { UilClock } from "@iconscout/react-unicons"; // Time/Watch icon
+import { UilMapMarker } from "@iconscout/react-unicons"; 
+import { UilClock } from "@iconscout/react-unicons"; 
 import { useApplication } from "../context/ApplicationContext";
 
 const InternshipDetail = () => {
-  const { id } = useParams(); // Extract the internship ID from the URL
-  const { fetchInternshipById, loading } = useInternships(); // Use context method
-  const [file, setFile] = useState(null); // To store the uploaded file
+  const { id } = useParams(); 
+  const { fetchInternshipById, loading } = useInternships();
+  const [file, setFile] = useState(null); 
   const [internship, setInternship] = useState(null);
   const [skills, setSkills] = useState("");
-  const [academicRecord, setAcademicRecord] = useState(null); // State for academic record
+  const [academicRecord, setAcademicRecord] = useState(null); 
   const [cv, setCv] = useState(null);
 
-  const [showForm, setShowForm] = useState(false); // Toggle visibility of the form
-  const { userName, userMajor, userGpa, userSkills, userRole } = useUser(); // Include userRole
+  const [showForm, setShowForm] = useState(false); 
+  const { userName, userMajor, userGpa, userSkills, userRole } = useUser();
   const [applying, setApplying] = useState(false);
   const { applyForInternship } = useApplication();
   const handleFileChange = (event) => {
@@ -48,11 +48,11 @@ const InternshipDetail = () => {
       setApplying(true);
       const response = await applyForInternship(
         internship.id,
-        userName, // or userId
+        userName,
         internship.title,
         file,
-        academicRecord, // Include academicRecord
-        cv, // Include CV
+        academicRecord, 
+        cv, 
         skills
       );
       alert(response);
@@ -66,7 +66,7 @@ const InternshipDetail = () => {
   useEffect(() => {
     const getInternshipDetails = async () => {
       try {
-        const data = await fetchInternshipById(id); // Call context method
+        const data = await fetchInternshipById(id); 
         setInternship(data);
       } catch (error) {
         console.error("Error in InternshipDetail component:", error);
@@ -89,7 +89,6 @@ const InternshipDetail = () => {
       <h1>Internship Details</h1>
       <div className="p-6 bg-gray-50  min-h-screen">
         <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-          {/* Header Section with Image */}
           <div className="relative">
             <div className="p-3 text-indigo-900 flex items-center">
               <div className="mr-4">
@@ -103,9 +102,7 @@ const InternshipDetail = () => {
             </div>
           </div>
 
-          {/* Persistent Header Section */}
           <div className=" text-indigo-900">
-            {/* Location and Duration Row */}
             <div className="flex items-center text-sm ml-20 ">
               <div className="flex items-center mr-4">
                 <UilMapMarker className="text-pink-300 mr-1" />
@@ -120,7 +117,6 @@ const InternshipDetail = () => {
             <hr className="border-indigo-300 my-6 shadow-xl" />
           </div>
 
-          {/* Description Section */}
           <div
             className={`p-6 transition-all duration-700 ease-in-out ${
               showForm
@@ -156,7 +152,7 @@ const InternshipDetail = () => {
                 <div className="mt-6 flex justify-end">
                   <button
                     className="px-6 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
-                    onClick={() => setShowForm(true)} // Show the form
+                    onClick={() => setShowForm(true)}
                   >
                     Apply Now
                   </button>
@@ -172,7 +168,6 @@ const InternshipDetail = () => {
                 : "opacity-0 translate-y-8 hidden"
             }`}
           >
-            {/* Application Form */}
             {showForm && (
               <div className="p-6 rounded-lg border border-pink-100">
                 <h2 className="text-2xl font-bold text-gray-800 mb-4">
@@ -185,7 +180,6 @@ const InternshipDetail = () => {
                   }}
                 >
                   <div className="space-y-6">
-                    {/* Name and Major */}
                     <div className="grid grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-medium text-gray-700">
@@ -211,7 +205,6 @@ const InternshipDetail = () => {
                       </div>
                     </div>
 
-                    {/* GPA */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700">
                         GPA
@@ -224,7 +217,6 @@ const InternshipDetail = () => {
                       />
                     </div>
 
-                    {/* File Uploads */}
                     <div className="grid grid-cols-3 gap-6">
                       <div>
                         <label className="block text-sm font-medium text-gray-700">
@@ -261,7 +253,6 @@ const InternshipDetail = () => {
                       </div>
                     </div>
 
-                    {/* Skills */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700">
                         Skills
@@ -274,7 +265,6 @@ const InternshipDetail = () => {
                       />
                     </div>
 
-                    {/* Submit Button */}
                     <div className="text-right">
                       <button
                         type="submit"

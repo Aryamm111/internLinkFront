@@ -3,8 +3,7 @@ import { useInternships } from "../context/InternshipContext";
 import { useUser } from "../context/UserContext";
 import InternshipCard from "./InternshipCard";
 import axios from "axios";
-import { UilFilter } from "@iconscout/react-unicons"; // Add this import at the top
-
+import { UilFilter } from "@iconscout/react-unicons"; 
 const InternshipList = () => {
   const {
     recommendedInternships,

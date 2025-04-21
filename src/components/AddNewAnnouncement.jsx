@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useInternships } from "../context/InternshipContext.jsx";
 
-// Icons (assume these are imported correctly)
 import {
   UilLabelAlt,
   UilBuilding,
@@ -48,7 +47,6 @@ const AddNewAnnouncement = () => {
         majors: internshipData.majors || [],
         requiredSkills: internshipData.requiredSkills || [],
         maxStudents: internshipData.maxStudents || "",
-        // files will be null; no need to fill
       }));
     }
   }, [internshipData]);
@@ -133,13 +131,14 @@ const AddNewAnnouncement = () => {
 
   return (
     <div className="p-10 w-full max-w-6xl">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">
+      <h1 className="mb-4">
         {internshipData ? "Edit Internship" : "Add New Announcement"}
-      </h2>
+      </h1>
 
+      <div className="bg-white"></div>
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded shadow space-y-6"
+        className="bg-[#F5F5F5] p-8 rounded shadow space-y-6"
       >
         <div className="grid grid-cols-2 gap-4">
           <InputField
@@ -192,7 +191,7 @@ const AddNewAnnouncement = () => {
             value={form.duration}
             onChange={handleChange}
             type="number"
-            min="1" // Ensures positive numbers only
+            min="1"
           />
 
           <InputField
@@ -248,7 +247,6 @@ const AddNewAnnouncement = () => {
   );
 };
 
-// Reusable Input components
 const InputField = ({
   icon,
   label,
@@ -267,7 +265,7 @@ const InputField = ({
         name={name}
         value={value}
         onChange={onChange}
-        min={min} // Pass min prop for number inputs
+        min={min}
         className="w-full border bg-white focus:outline-none focus:ring-2 focus:ring-pink-100 border-gray-300 rounded-md p-2"
         required
       />
