@@ -12,7 +12,6 @@ import HomePage from "./components/HomePage.jsx";
 import { ReportsPage } from "./components/ReportsPage.jsx";
 import { StudentInformation } from "./components/StudentInformation.jsx";
 import { StudentProvider } from "./context/StudentContext.jsx";
-import ApplicationStatus from "./components/ApplicationStatus.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Login from "./components/Login.jsx";
 import TaskForm from "./components/TaskForm.jsx";
@@ -26,7 +25,9 @@ import ProgressCharts from "./components/ProgressCharts.jsx";
 import { InternshipProvider } from "./context/InternshipContext.jsx";
 import InternshipList from "./components/internshipList.jsx";
 import { ManageAnnouncement } from "./components/ManageAnnouncement.jsx";
-import AddNewAnnouncement from "../AddNewAnnouncement.jsx";
+import AddNewAnnouncement from "./components/AddNewAnnouncement.jsx";
+import { ApplicationProvider } from "./context/ApplicationContext.jsx";
+import ApplicationsTable from "./components/ApplicationsTable.jsx";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -61,7 +62,7 @@ const router = createBrowserRouter([
           { path: "tasks", element: <MyTasks /> },
           { path: "taskprogress", element: <ProgressCharts /> },
           { path: "studentsinfo", element: <StudentInformation /> },
-          { path: "track", element: <ApplicationStatus /> },
+          { path: "track", element: <ApplicationsTable /> },
           {
             path: "internshipDetails/internships/:id",
             element: <InternshipDetail />,
@@ -79,11 +80,13 @@ root.render(
   <StrictMode>
     <UserProvider>
       <TaskProvider>
-        <InternshipProvider>
-          <StudentProvider>
-            <RouterProvider router={router} />
-          </StudentProvider>
-        </InternshipProvider>
+        <ApplicationProvider>
+          <InternshipProvider>
+            <StudentProvider>
+              <RouterProvider router={router} />
+            </StudentProvider>
+          </InternshipProvider>
+        </ApplicationProvider>
       </TaskProvider>
     </UserProvider>
   </StrictMode>

@@ -11,11 +11,44 @@ export const UserProvider = ({ children }) => {
   const [userEmail, setUserEmail] = useState(localStorage.getItem("userEmail"));
   const [userId, setUserId] = useState(localStorage.getItem("userId"));
   const [userMajor, setUserMajor] = useState(null);
-  const [userGpa, setUserGpa] = useState(null);
+  const [userGpa, setUserGpa] = useState("0.0");
   const [userSkills, setUserSkills] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!localStorage.getItem("userId")
   );
+
+  const registerCompanySupervisor = async (formData, navigate) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8081/api/companysupervisors/register",
+        formData,
+        { withCredentials: true }
+      );
+
+      alert("Company Supervisor registered successfully!");
+      navigate("/login");
+    } catch (error) {
+      console.error("Error during Company Supervisor registration:", error);
+      alert("Registration failed. Please try again.");
+    }
+  };
+  const registerHRManager = async (formData, navigate) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:8081/api/hrmanagers/register",
+        formData
+      );
+      alert(res.data);
+      navigate("/login");
+    } catch (err) {
+      if (err.response && err.response.data) {
+        alert(`Error: ${err.response.data}`);
+      } else {
+        alert("Something went wrong.");
+      }
+      console.error("Registration failed:", err);
+    }
+  };
 
   const fetchUserSession = async () => {
     try {
@@ -44,9 +77,9 @@ export const UserProvider = ({ children }) => {
         setUserRole(data.role);
         setIsAuthenticated(true);
 
-        if (data.role === "Student") {
-          // Save student-specific fields only for Students
+        if (data.userRole === "STUDENT" || data.role == "STUDENT") {
           setUserMajor(data.major);
+          console.log(data);
           setUserGpa(data.gpa);
           setUserSkills(data.skills || []);
         }
@@ -129,30 +162,6 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  const handleSignUp = async (formData, skills, navigate) => {
-    try {
-      const endpoint =
-        formData.userType === "Student"
-          ? "http://localhost:8081/api/students/register"
-          : "http://localhost:8081/register";
-
-      const payload =
-        formData.userType === "Student"
-          ? { ...formData, skills }
-          : { ...formData };
-
-      const response = await axios.post(endpoint, payload, {
-        withCredentials: true,
-      });
-
-      alert(response.data);
-      navigate("/login");
-    } catch (error) {
-      console.error("Error during sign-up:", error);
-      alert("Registration failed. Please try again.");
-    }
-  };
-
   return (
     <UserContext.Provider
       value={{
@@ -160,10 +169,14 @@ export const UserProvider = ({ children }) => {
         userName,
         userEmail,
         userId,
+        userMajor,
+        userSkills,
+        userGpa,
+        registerHRManager,
         isAuthenticated,
         login,
         logout,
-        handleSignUp,
+        registerCompanySupervisor,
       }}
     >
       {children}

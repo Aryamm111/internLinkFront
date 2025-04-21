@@ -124,7 +124,7 @@ const Table = ({ columns, data, showAddButton, onAddClick }) => {
         <button
           onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
           disabled={page === 0}
-          className="px-4 py-2 bg-pink-500 text-white rounded-full shadow-lg hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-200 ease-in-out disabled:opacity-50"
+          className="px-4 py-2 bg-indigo-500 text-white rounded-full shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-200 ease-in-out disabled:opacity-50"
         >
           ← Previous
         </button>
@@ -141,7 +141,7 @@ const Table = ({ columns, data, showAddButton, onAddClick }) => {
             )
           }
           disabled={page === Math.ceil(filteredData.length / rowsPerPage) - 1}
-          className="px-4 py-2 bg-pink-500 text-white rounded-full shadow-lg hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-200 ease-in-out disabled:opacity-50"
+          className="px-4 py-2 bg-indigo-500 text-white rounded-full shadow-lg hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-200 ease-in-out disabled:opacity-50"
         >
           Next →
         </button>

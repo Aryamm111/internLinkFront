@@ -22,7 +22,7 @@ const HomePage = () => {
   const cardsData = cardsDataMap[userRole] || [];
   const getDynamicGridStyles = (cards) => {
     if (cards.length === 5) {
-      return "grid grid-cols-2 gap-4"; 
+      return "grid grid-cols-2 gap-4";
     } else if (cards.length === 4) {
       return "grid grid-cols-2 gap-4";
     } else if (cards.length === 3) {
@@ -78,10 +78,10 @@ const HomePage = () => {
   };
 
   return (
-    <div className="bg-white bg-opacity-10  px-7 pt-9">
+    <div className="bg-white bg-opacity-10  px-7 pt-5">
       <h1>Home</h1>
 
-      <div className="bg-[#F5F5F5] px-8 py-10  rounded-lg ">
+      <div className="bg-[#F5F5F5] px-8 py-8   rounded-lg ">
         {renderCards(cardsData)}
       </div>
     </div>

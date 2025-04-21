@@ -24,11 +24,9 @@ export const StudentInformation = () => {
   }, [userRole, userId]);
   return (
     <div className="min-h-screen p-8 w-full">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">
-        Student Information
-      </h1>
+      <h1>Student Information</h1>
 
-      <div className="w-full bg-[#F5F5F5] shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow">
+      <div className="w-full bg-[#F5F5F5]  rounded-lg p-6 hover:shadow-xl transition-shadow">
         <Table
           columns={[
             {
