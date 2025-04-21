@@ -16,7 +16,6 @@ export const ManageAnnouncement = () => {
     }
   }, [userId, userRole, fetchUploadedInternships]);
 
-  // Debugging: Log the uploaded internships
   console.log("Uploaded Internships:", uploadedInternships);
 
   if (userRole !== "HR_MANAGER") {
@@ -44,18 +43,20 @@ export const ManageAnnouncement = () => {
         {uploadedInternships?.length > 0 ? (
           uploadedInternships.map((internship) => (
             <InternshipCard
-              key={internship.id || internship._id}
+              key={internship._id}
+              id={internship.id}
               title={internship.title}
+              company={internship.company}
               location={internship.location}
-              major={internship.majors}
-              skills={
-                internship.requiredSkills
-                  ? internship.requiredSkills.join(", ")
-                  : "N/A"
-              }
+              description={internship.description}
+              majors={internship.majors}
+              requiredSkills={internship.requiredSkills}
               duration={internship.duration}
-              buttonType="edit" // Set button type to "edit"
-              extraSpacing
+              startDate={internship.startDate}
+              imageUrl={internship.imageUrl}
+              maxStudents={internship.maxStudents}
+              isActive={internship.status}
+              buttonType="edit"
             />
           ))
         ) : (
