@@ -83,6 +83,70 @@ export const InternshipProvider = ({ children }) => {
     }
   }, []);
 
+  const updateInternship = useCallback(async (internshipId, formData) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:8081/api/internships/update/${internshipId}`,
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(
+        "Error updating internship:",
+        error.response?.data || error
+      );
+      throw error;
+    }
+  }, []);
+  const deleteInternship = useCallback(async (internshipId) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8081/api/internships/delete/${internshipId}`,
+        { withCredentials: true }
+      );
+
+      // Optional: Remove deleted internship from the list in state
+      setUploadedInternships((prev) =>
+        prev.filter((internship) => internship._id !== internshipId)
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error(
+        "Error deleting internship:",
+        error.response?.data || error
+      );
+      throw error;
+    }
+  }, []);
+  const createInternship = useCallback(async (formData) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8081/api/internships/create",
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(
+        "Error creating internship:",
+        error.response?.data || error
+      );
+      throw error;
+    }
+  }, []);
+
   return (
     <InternshipContext.Provider
       value={{
@@ -93,7 +157,10 @@ export const InternshipProvider = ({ children }) => {
         fetchUploadedInternships,
         currentPage,
         setCurrentPage,
+        createInternship,
         fetchInternshipById,
+        updateInternship,
+        deleteInternship,
         totalPages,
       }}
     >
