@@ -1,9 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import logoImg from "../assets/Eicon.png";
-import progress from "../assets/progress.png";
-import connect from "../assets/connect.png";
 import { useInternships } from "../context/InternshipContext";
+import {
+  UilEdit,
+  UilTrashAlt,
+  UilCheckCircle,
+  UilTimesCircle,
+  UilMapMarker,
+  UilBookAlt,
+  UilCodeBranch,
+  UilCalendarAlt,
+  UilClock,
+} from "@iconscout/react-unicons";
 
 const InternshipCard = ({
   id,
@@ -69,7 +78,11 @@ const InternshipCard = ({
 
   const getButtonDetails = () => {
     if (isActive == "deleted") {
-      return { label: "Deleted", color: "bg-gray-400 cursor-not-allowed" };
+      return {
+        label: "Deleted",
+        color: "bg-gray-300 text-gray-600",
+        icon: <UilTimesCircle className="mr-1" size="16" />,
+      };
     }
 
     if (buttonType === "status") {
@@ -77,16 +90,29 @@ const InternshipCard = ({
         case "accepted":
           return {
             label: "Accepted",
-            color: "bg-green-500 hover:bg-green-600",
+            color: "bg-green-100 text-green-800",
+            icon: <UilCheckCircle className="mr-1" size="16" />,
           };
         case "rejected":
-          return { label: "Rejected", color: "bg-red-500 hover:bg-red-600" };
+          return {
+            label: "Rejected",
+            color: "bg-red-100 text-red-800",
+            icon: <UilTimesCircle className="mr-1" size="16" />,
+          };
         case "pending":
         default:
-          return { label: "Pending", color: "bg-gray-500 hover:bg-gray-600" };
+          return {
+            label: "Pending",
+            color: "bg-blue-100 text-blue-800",
+            icon: <UilClock className="mr-1" size="16" />,
+          };
       }
     } else if (buttonType === "action") {
-      return { label: "Apply", color: "bg-blue-500 hover:bg-blue-600" };
+      return {
+        label: "View Details",
+        color: "bg-blue-500 hover:bg-blue-600 text-white",
+        icon: null,
+      };
     } else {
       return null;
     }
@@ -95,110 +121,149 @@ const InternshipCard = ({
   const buttonDetails = getButtonDetails();
 
   return (
-    <div className="w-full pt-2 relative overflow-hidden">
+    <div className="w-full mb-4 relative group">
       {isActive == "deleted" && (
-        <div className="absolute mt-3 top-0 right-0 bg-red-600 text-white text-xs font-bold px-8 py-2 rounded-bl-lg z-10 shadow-md">
-          {" "}
-          DELETED
+        <div className="absolute top-3 right-3 bg-red-100 text-red-800 text-xs font-medium px-2 py-1 rounded-md z-10">
+          Archived
         </div>
       )}
 
       <div
-        className={`flex shadow-lg rounded-xl p-4  overflow-hidden 
-        ${
-          isActive == "deleted"
-            ? "bg-white border border-red-600 border-dashed border-1 "
-            : "bg-white border border-grey-100  border-4 "
+        className={`flex flex-col sm:flex-row p-5 rounded-xl bg-white border border-gray-100 shadow-xs hover:shadow-sm transition-all ${
+          isActive == "deleted" ? "opacity-80" : "group-hover:border-blue-100"
         }`}
       >
-        <img
-          src={encodeURI(displayedImage)}
-          alt="Internship logo"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = logoImg;
-          }}
-          className={`w-16 h-16 rounded-lg mr-5 ${
-            isActive == "deleted" ? "opacity-70" : ""
-          }`}
-        />
-        <div className="flex-1 mr-10">
-          <h1
-            className={`text-xl font-bold ${
+        {/* Image */}
+        <div className="flex-shrink-0 mb-3 sm:mb-0 sm:mr-4">
+          <div className="w-14 h-14 rounded-lg bg-blue-50 flex items-center justify-center overflow-hidden">
+            <img
+              src={encodeURI(displayedImage)}
+              alt="Internship logo"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = logoImg;
+              }}
+              className={`w-full h-full object-contain p-1 ${
+                isActive == "deleted" ? "opacity-60" : ""
+              }`}
+            />
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 min-w-0">
+          <h2
+            className={`text-lg font-semibold mb-2 ${
               isActive == "deleted" ? "text-gray-500" : "text-gray-800"
             }`}
           >
             {title}
-          </h1>
-          <p
-            className={`text-sm ${
-              isActive == "deleted" ? "text-gray-400" : "text-gray-600"
-            }`}
-          >
-            Location: {location}
-          </p>
-          <p
-            className={`text-sm ${
-              isActive == "deleted" ? "text-gray-400" : "text-gray-600"
-            }`}
-          >
-            <span className="font-medium">Majors: </span>
-            {Array.isArray(majors) ? majors.join(", ") : majors}
-          </p>
-          <p
-            className={`text-sm ${
-              isActive == "deleted" ? "text-gray-400" : "text-gray-600"
-            }`}
-          >
-            <span className="font-medium">Skills: </span>
-            {Array.isArray(requiredSkills)
-              ? requiredSkills.join(", ")
-              : requiredSkills}
-          </p>
-          <p
-            className={`text-sm ${
-              isActive == "deleted" ? "text-gray-400" : "text-gray-600"
-            }`}
-          >
-            Duration: {duration}
-          </p>
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-4 text-sm">
+            <div className="flex items-start">
+              <UilMapMarker
+                className="mt-0.5 mr-1.5 text-blue-400 flex-shrink-0"
+                size="16"
+              />
+              <span
+                className={
+                  isActive == "deleted" ? "text-gray-400" : "text-gray-600"
+                }
+              >
+                {location}
+              </span>
+            </div>
+
+            <div className="flex items-start">
+              <UilBookAlt
+                className="mt-0.5 mr-1.5 text-blue-400 flex-shrink-0"
+                size="16"
+              />
+              <span
+                className={
+                  isActive == "deleted" ? "text-gray-400" : "text-gray-600"
+                }
+              >
+                {Array.isArray(majors) ? majors.join(", ") : majors}
+              </span>
+            </div>
+
+            <div className="flex items-start">
+              <UilCodeBranch
+                className="mt-0.5 mr-1.5 text-blue-400 flex-shrink-0"
+                size="16"
+              />
+              <span
+                className={
+                  isActive == "deleted" ? "text-gray-400" : "text-gray-600"
+                }
+              >
+                {Array.isArray(requiredSkills)
+                  ? requiredSkills.join(", ")
+                  : requiredSkills}
+              </span>
+            </div>
+
+            <div className="flex items-start">
+              <UilCalendarAlt
+                className="mt-0.5 mr-1.5 text-blue-400 flex-shrink-0"
+                size="16"
+              />
+              <span
+                className={
+                  isActive == "deleted" ? "text-gray-400" : "text-gray-600"
+                }
+              >
+                {duration}
+              </span>
+            </div>
+          </div>
         </div>
 
-        <div className="mt-auto flex gap-2">
+        {/* Actions */}
+        <div className="mt-3 sm:mt-0 sm:ml-4 flex sm:flex-col justify-end sm:justify-between items-end">
           {buttonType === "edit" ? (
-            <>
+            <div className="flex space-x-2">
               <button
-                className={`bg-blue-500 text-white rounded-xl py-2 px-4 
-                  ${
-                    isActive == "deleted"
-                      ? "opacity-50 cursor-not-allowed"
-                      : "hover:bg-blue-600"
-                  }`}
                 onClick={handleEditClick}
                 disabled={isActive == "deleted"}
+                className={`flex items-center px-3 py-1.5 rounded-lg text-sm ${
+                  isActive == "deleted"
+                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    : "bg-blue-50 text-blue-600 hover:bg-blue-100"
+                }`}
               >
+                <UilEdit className="mr-1" size="14" />
                 Edit
               </button>
               <button
-                className={`bg-pink-400 text-white rounded-xl py-2 px-4 transition 
-                  ${
-                    isActive == "deleted"
-                      ? "opacity-50 cursor-not-allowed"
-                      : "hover:shadow-pink-500/50"
-                  }`}
                 onClick={handleDeleteClick}
                 disabled={isActive == "deleted"}
+                className={`flex items-center px-3 py-1.5 rounded-lg text-sm ${
+                  isActive == "deleted"
+                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    : "bg-red-50 text-red-600 hover:bg-red-100"
+                }`}
               >
+                <UilTrashAlt className="mr-1" size="14" />
                 Delete
               </button>
-            </>
+            </div>
           ) : (
             buttonDetails && (
               <button
-                className={`${buttonDetails.color} text-white rounded-xl py-2 px-4`}
                 onClick={handleApplyClick}
                 disabled={isActive == "deleted"}
+                className={`flex items-center px-3 py-1.5 rounded-lg text-sm border ${
+                  buttonDetails.color
+                } ${
+                  isActive == "deleted"
+                    ? "cursor-not-allowed"
+                    : "hover:shadow-xs"
+                }`}
               >
+                {buttonDetails.icon}
                 {buttonDetails.label}
               </button>
             )
