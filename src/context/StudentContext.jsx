@@ -32,6 +32,50 @@ export const StudentProvider = ({ children }) => {
       setLoading(false);
     }
   };
+  const updateStudent = async (updateData) => {
+    try {
+      const response = await axios.put(
+        "http://localhost:8081/api/students/update",
+        updateData,
+        { withCredentials: true }
+      );
+      setStudents((prev) =>
+        prev.map((s) =>
+          s.studentId === response.data.studentId ? response.data : s
+        )
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error updating student:", error);
+      throw error;
+    }
+  };
+
+  const assignCompanySupervisor = async (supervisorId, studentIds) => {
+    if (!supervisorId || studentIds.length === 0) return;
+
+    try {
+      await axios.post(
+        `http://localhost:8081/api/students/add?supervisorId=${supervisorId}`,
+        studentIds,
+        { withCredentials: true }
+      );
+
+      // Optionally update local state if needed
+      setStudents((prev) =>
+        prev.map((s) =>
+          studentIds.includes(s.studentId)
+            ? { ...s, companySupervisorId: supervisorId }
+            : s
+        )
+      );
+
+      return true;
+    } catch (error) {
+      console.error("Error assigning company supervisor:", error);
+      throw error;
+    }
+  };
 
   const assignFacultySupervisor = async (studentId) => {
     try {
@@ -60,6 +104,8 @@ export const StudentProvider = ({ children }) => {
         setSelectedStudent,
         assignFacultySupervisor,
         fetchStudents,
+        assignCompanySupervisor,
+        updateStudent,
       }}
     >
       {children}

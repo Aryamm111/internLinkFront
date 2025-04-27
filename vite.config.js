@@ -12,7 +12,9 @@ export default defineConfig({
     port: 5173,
     allowedHosts: ['a218-212-62-98-0.ngrok-free.app'], // Add your ngrok URL here
   },
-  
+  define: {
+    global: 'globalThis',
+  },
 
 
   plugins: [react()],

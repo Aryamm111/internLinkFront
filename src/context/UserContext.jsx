@@ -16,6 +16,42 @@ export const UserProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!localStorage.getItem("userId")
   );
+  const resetPassword = async (email, token, newPassword) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8081/api/user/reset-password",
+        {
+          token,
+          newPassword,
+        }
+      );
+      alert("Password reset successful! You can now log in.");
+    } catch (error) {
+      console.error("Reset password error:", error);
+      if (
+        error.response &&
+        error.response.status === 403 &&
+        error.response.data.includes("not allowed")
+      ) {
+        alert("Password reset is only allowed for HR or Company Supervisors.");
+      } else {
+        alert("Failed to reset password. Please try again.");
+      }
+    }
+  };
+
+  const forgotPassword = async (email) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8081/api/user/forgot-password",
+        { email }
+      );
+      alert("Password reset link sent to your email.");
+    } catch (error) {
+      console.error("Forgot password error:", error);
+      alert("Failed to send reset link. Please try again.");
+    }
+  };
 
   const registerCompanySupervisor = async (formData, navigate) => {
     try {
@@ -49,7 +85,6 @@ export const UserProvider = ({ children }) => {
       console.error("Registration failed:", err);
     }
   };
-
   const fetchUserSession = async () => {
     try {
       const response = await fetch("http://localhost:8081/api/user/session", {
@@ -63,7 +98,11 @@ export const UserProvider = ({ children }) => {
           response.status,
           response.statusText
         );
-        logout();
+
+        // Only logout if the user is authenticated
+        if (isAuthenticated) {
+          logout();
+        }
         return;
       }
 
@@ -84,18 +123,21 @@ export const UserProvider = ({ children }) => {
           setUserSkills(data.skills || []);
         }
 
-        // Save to local storage
         localStorage.setItem("userId", data.userId);
         localStorage.setItem("userName", data.username);
         localStorage.setItem("userEmail", data.email);
         localStorage.setItem("userRole", data.role);
       } else {
         console.error("Session response missing userId:", data);
-        logout();
+        if (isAuthenticated) {
+          logout();
+        }
       }
     } catch (error) {
       console.error("Error fetching user session:", error);
-      logout();
+      if (isAuthenticated) {
+        logout();
+      }
     }
   };
 
@@ -142,24 +184,23 @@ export const UserProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await fetch("http://localhost:8081/api/user/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-
-      setUserId(null);
-      setUserName(null);
-      setUserEmail(null);
-      setUserRole(null);
-      setIsAuthenticated(false);
-
-      localStorage.removeItem("userId");
-      localStorage.removeItem("userName");
-      localStorage.removeItem("userEmail");
-      localStorage.removeItem("userRole");
+      await axios.post("http://localhost:8081/api/user/logout"); // call the backend to clear session
     } catch (error) {
-      console.error("Error during logout:", error);
+      console.error("Error logging out:", error);
     }
+
+    // Clear frontend user state
+    setUserRole(null);
+    setUserName(null);
+    setUserEmail(null);
+    setUserId(null);
+    setUserMajor(null);
+    setUserGpa(null);
+
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userId");
   };
 
   return (
@@ -176,6 +217,8 @@ export const UserProvider = ({ children }) => {
         isAuthenticated,
         login,
         logout,
+        forgotPassword,
+        resetPassword,
         registerCompanySupervisor,
       }}
     >

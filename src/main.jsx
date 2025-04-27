@@ -7,6 +7,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { UserProvider } from "./context/UserContext.jsx";
+import StudentReport from "./components/StudentReport.jsx";
 import LayoutA from "./components/LayoutA";
 import HomePage from "./components/HomePage.jsx";
 import { ReportsPage } from "./components/ReportsPage.jsx";
@@ -16,6 +17,8 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Login from "./components/Login.jsx";
 import TaskForm from "./components/TaskForm.jsx";
 import { MyTasks } from "./components/MyTasks.jsx";
+import { WebSocketProvider } from "./context/WebSocketContext";
+import AssignSupervisor from "./components/AssignSupervisor.jsx";
 import { TaskProvider } from "./context/TaskContext";
 import MainPage from "./components/MainPage.jsx";
 import InternshipDetail from "./components/InternshipDetails.jsx";
@@ -28,6 +31,9 @@ import { ManageAnnouncement } from "./components/ManageAnnouncement.jsx";
 import AddNewAnnouncement from "./components/AddNewAnnouncement.jsx";
 import { ApplicationProvider } from "./context/ApplicationContext.jsx";
 import ApplicationsTable from "./components/ApplicationsTable.jsx";
+import ViewApplicants from "./components/ViewApplicants.jsx";
+import { ReportProvider } from "./context/ReportContext.jsx";
+import UpdateProfile from "./components/UpdateProfile.jsx";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -54,7 +60,9 @@ const router = createBrowserRouter([
         children: [
           { path: "home", element: <HomePage /> },
           { path: "reports", element: <ReportsPage /> },
-          { path: "connect", element: <ChatApp /> },
+          { path: "uploadreport", element: <StudentReport /> },
+          { path: "update-profile", element: <UpdateProfile /> },
+          { path: "messages", element: <ChatApp /> },
           { path: "internships", element: <InternshipList /> },
           { path: "announcements", element: <ManageAnnouncement /> },
           { path: "addannouncements", element: <AddNewAnnouncement /> },
@@ -63,6 +71,8 @@ const router = createBrowserRouter([
           { path: "taskprogress", element: <ProgressCharts /> },
           { path: "studentsinfo", element: <StudentInformation /> },
           { path: "track", element: <ApplicationsTable /> },
+          { path: "applications", element: <ViewApplicants /> },
+          { path: "assign-supervisor", element: <AssignSupervisor /> },
           {
             path: "internshipDetails/internships/:id",
             element: <InternshipDetail />,
@@ -79,15 +89,19 @@ const root = createRoot(rootElement);
 root.render(
   <StrictMode>
     <UserProvider>
-      <TaskProvider>
-        <ApplicationProvider>
-          <InternshipProvider>
-            <StudentProvider>
-              <RouterProvider router={router} />
-            </StudentProvider>
-          </InternshipProvider>
-        </ApplicationProvider>
-      </TaskProvider>
+      <WebSocketProvider>
+        <ReportProvider>
+          <TaskProvider>
+            <ApplicationProvider>
+              <InternshipProvider>
+                <StudentProvider>
+                  <RouterProvider router={router} />
+                </StudentProvider>
+              </InternshipProvider>
+            </ApplicationProvider>
+          </TaskProvider>
+        </ReportProvider>
+      </WebSocketProvider>
     </UserProvider>
   </StrictMode>
 );

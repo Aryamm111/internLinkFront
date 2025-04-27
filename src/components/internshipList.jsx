@@ -3,7 +3,8 @@ import { useInternships } from "../context/InternshipContext";
 import { useUser } from "../context/UserContext";
 import InternshipCard from "./InternshipCard";
 import axios from "axios";
-import { UilFilter } from "@iconscout/react-unicons"; 
+import { UilFilter, UilSearch } from "@iconscout/react-unicons";
+
 const InternshipList = () => {
   const {
     recommendedInternships,
@@ -31,7 +32,6 @@ const InternshipList = () => {
     setSearchLoading(true);
     try {
       const url = `http://localhost:8081/api/internships/search`;
-
       const params = {
         page: currentPage,
         size: 10,
@@ -43,9 +43,7 @@ const InternshipList = () => {
         params,
         withCredentials: true,
       });
-
-      const data = response.data;
-      setSearchResults(data);
+      setSearchResults(response.data);
     } catch (error) {
       console.error("Error fetching search results:", error);
     } finally {
@@ -63,17 +61,26 @@ const InternshipList = () => {
 
   if (userRole !== "STUDENT") {
     return (
-      <p className="text-center text-gray-500">
-        Internship recommendations are available for students only.
-      </p>
+      <div className="bg-gray-50 rounded-xl p-8 text-center">
+        <p className="text-gray-600">
+          Internship recommendations are available for students only.
+        </p>
+      </div>
     );
   }
 
   if (loading) {
     return (
-      <p className="text-center text-gray-500">
-        Loading recommended internships...
-      </p>
+      <div className="p-6 max-w-7xl mx-auto flex flex-col h-full">
+        <h1 className="text-3xl font-bold text-gray-800 mb-6">
+          {searchResults !== null
+            ? "Search Results"
+            : "Recommended Internships"}
+        </h1>
+        <div className="flex justify-center bg-gray-50 items-center h-64 mb-20">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-pink-500"></div>
+        </div>
+      </div>
     );
   }
 
@@ -81,97 +88,109 @@ const InternshipList = () => {
     searchResults !== null ? searchResults : recommendedInternships;
 
   return (
-    <div className="p-6">
-      <h1 className="mb-4">
+    <div className="p-6 max-w-7xl mx-auto flex flex-col h-full">
+      <h1 className="text-3xl font-bold text-gray-800 mb-6">
         {searchResults !== null ? "Search Results" : "Recommended Internships"}
       </h1>
 
-      <div className="bg-[#F5F5F5] rounded-lg shadow-md p-4 h-[80vh] overflow-y-auto scroll-custom">
-        <div className="flex justify-between items-center gap-4 mb-4">
+      {/* Search and Filter */}
+      <div className="flex flex-wrap gap-4 mb-6">
+        <div className="relative flex-1 min-w-[250px]">
+          <UilSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
           <input
             type="text"
             placeholder="Search internships..."
-            className="w-full max-w-md p-2 border rounded-lg bg-white shadow-sm"
+            className="w-full pl-10 pr-4 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-300"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-
-          <div className="relative flex items-center">
-            <UilFilter
-              className="absolute left-3 text-gray-500 pointer-events-none "
-              size="24"
-            />
-
-            <select
-              className="w-full pl-10 p-2 border rounded-lg bg-white shadow-sm"
-              value={selectedMajor}
-              onChange={(e) => setSelectedMajor(e.target.value)}
-            >
-              <option value="">Filter</option>
-              {[
-                ...new Set(
-                  recommendedInternships.flatMap(
-                    (internship) => internship.majors
-                  )
-                ),
-              ].map((major) => (
-                <option key={major} value={major}>
-                  {major}
-                </option>
-              ))}
-            </select>
-          </div>
         </div>
-        {searchLoading ? (
-          <p className="text-center text-gray-500">Searching...</p>
-        ) : internshipsToDisplay.length > 0 ? (
-          internshipsToDisplay.map((internship) => (
-            <InternshipCard
-              key={internship.id || internship._id}
-              id={internship.id}
-              title={internship.title}
-              location={internship.location}
-              major={internship.majors}
-              skills={
-                internship.requiredSkills
-                  ? internship.requiredSkills.join(", ")
-                  : "N/A"
-              }
-              duration={internship.duration}
-              buttonType="action"
-              extraSpacing
-            />
-          ))
-        ) : (
-          <p className="text-center text-gray-500">No internships found.</p>
-        )}
+
+        <div className="relative min-w-[200px]">
+          <UilFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+          <select
+            className="w-full pl-10 pr-4 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-300"
+            value={selectedMajor}
+            onChange={(e) => setSelectedMajor(e.target.value)}
+          >
+            <option value="">All Majors</option>
+            {[
+              ...new Set(
+                recommendedInternships.flatMap(
+                  (internship) => internship.majors
+                )
+              ),
+            ].map((major) => (
+              <option key={major} value={major}>
+                {major}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
-      <div className="flex justify-center items-center gap-4 mt-4">
+      {/* Internships List */}
+      <div className="flex-1 overflow-hidden">
+        <div className="h-[65vh] pr-2 overflow-y-auto scroll-custom bg-gray-50 rounded-lg p-4">
+          {searchLoading ? (
+            <div className="flex justify-center items-center h-full">
+              <p className="text-gray-600">Searching...</p>
+            </div>
+          ) : internshipsToDisplay.length > 0 ? (
+            <div className="space-y-4">
+              {internshipsToDisplay.map((internship, index) => (
+                <InternshipCard
+                  key={internship.id || internship._id}
+                  id={internship.id}
+                  title={internship.title}
+                  location={internship.location}
+                  majors={internship.majors}
+                  imageUrl={internship.imageUrl}
+                  requiredSkills={
+                    internship.requiredSkills
+                      ? internship.requiredSkills.join(", ")
+                      : "N/A"
+                  }
+                  duration={internship.duration}
+                  buttonType="action"
+                  extraSpacing
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="flex justify-center items-center h-full">
+              <p className="text-gray-600">No internships found.</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="flex justify-center items-center gap-4 mt-6">
         <button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
-          className={`px-4 py-2 border ${
+          className={`px-4 py-2 rounded-lg ${
             currentPage === 1
-              ? "text-gray-400 cursor-not-allowed"
-              : "text-blue-600"
-          } rounded-md`}
+              ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+              : "bg-white text-blue-600 hover:bg-blue-50"
+          }`}
         >
           Previous
         </button>
-        <p className="text-gray-700">
+        <span className="text-gray-700">
           Page {currentPage} of {totalPages}
-        </p>
+        </span>
         <button
           onClick={() =>
             setCurrentPage((prev) => Math.min(prev + 1, totalPages))
           }
           disabled={currentPage >= totalPages}
-          className={`px-4 py-2 border ${
+          className={`px-4 py-2 rounded-lg ${
             currentPage >= totalPages
-              ? "text-gray-400 cursor-not-allowed"
-              : "text-blue-600"
-          } rounded-md`}
+              ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+              : "bg-white text-blue-600 hover:bg-blue-50"
+          }`}
         >
           Next
         </button>
