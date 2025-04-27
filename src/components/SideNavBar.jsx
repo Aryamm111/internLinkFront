@@ -40,7 +40,7 @@ const navLinksMap = {
     { name: "Reports", href: "/main/uploadReport", icon: <UilFileGraph /> },
     {
       name: "Communication",
-      href: "/main/Communication",
+      href: "/main/messages",
       icon: <UilCommentsAlt />,
     },
     {
@@ -60,7 +60,7 @@ const navLinksMap = {
     { name: "Reports", href: "/main/reports", icon: <UilFileGraph /> },
     {
       name: "Communication",
-      href: "/main/communication",
+      href: "/main/messages",
       icon: <UilCommentsAlt />,
     },
     {
@@ -80,7 +80,7 @@ const navLinksMap = {
     { name: "Reports", href: "/main/reports", icon: <UilFileGraph /> },
     {
       name: "Communication",
-      href: "/main/communication",
+      href: "/main/messages",
       icon: <UilCommentsAlt />,
     },
     {
@@ -119,7 +119,7 @@ const SideNavBar = () => {
                     <span className="mr-2">
                       {React.cloneElement(link.icon, {
                         color: isActive ? "#2563EB" : "#6B7280",
-                        size: link.icon.props.size || 20, 
+                        size: link.icon.props.size || 20,
                       })}
                     </span>
                   )}
