@@ -8,24 +8,37 @@ import circle from "../assets/circle.png";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [token, setToken] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [step, setStep] = useState("login"); // "login", "forgot", "reset"
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { login } = useUser();
+  const { login, forgotPassword, resetPassword } = useUser(); // Make sure you have resetPassword defined
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); // Clear any previous errors
-    if (isForgotPassword) {
-      console.log("Password reset link sent to:", email);
-    } else {
-      try {
+    setError("");
+
+    try {
+      if (step === "forgot") {
+        if (!email) return setError("Please enter your email.");
+        await forgotPassword(email);
+        setStep("reset");
+      } else if (step === "reset") {
+        if (!token || !newPassword)
+          return setError("Please enter the token and new password.");
+        await resetPassword(email, token, newPassword);
+        setStep("login");
+        setEmail("");
+        setPassword("");
+        setToken("");
+        setNewPassword("");
+      } else {
         await login(email, password, navigate);
-      } catch (err) {
-        console.error("Login error inside the component :", err.message);
-        setError("Invalid email or password. Please try again.");
-        console.log("Error state:", error); // Check if error state updates
       }
+    } catch (err) {
+      console.error(err);
+      setError("Something went wrong. Please try again.");
     }
   };
 
@@ -36,7 +49,6 @@ const Login = () => {
         alt="Abstract Shapes"
         className="fixed top-0 right-0 w-3/4 max-w-screen-lg h-auto object-cover z-0"
       />
-
       <header className="relative flex justify-between items-center px-6 pt-4 z-10">
         <div className="flex items-center space-x-2">
           <img
@@ -46,38 +58,20 @@ const Login = () => {
           />
           <h1 className="text-2xl font-bold">INTERNLINK</h1>
         </div>
-        <div className="space-x-4">
-          <button className="bg-blue-200 text-white px-4 py-2 rounded hover:bg-blue-600">
-            Login
-          </button>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-            Sign up
-          </button>
-        </div>
       </header>
-
       <div className="absolute -left-20 top-1/4 z-0">
         <img src={circle} alt="Decorative" className="w-80 h-auto opacity-50" />
       </div>
-
       <main className="flex h-screen relative z-10 ml-20">
         <div className="w-1/2 flex flex-col justify-center rounded-lg shadow p-12 bg-white">
           <h2 className="text-4xl font-volkhov font-bold text-[#181E4B] mb-6">
-            {isForgotPassword ? "Forgot Password" : "Welcome back"}
+            {step === "forgot"
+              ? "Forgot Password"
+              : step === "reset"
+              ? "Enter Reset Token"
+              : "Welcome back"}
           </h2>
-          <p className="text-sm text-gray-600 mb-8">
-            {isForgotPassword ? (
-              "Enter your email to reset your password"
-            ) : (
-              <>
-                Don't have an account?{" "}
-                <a href="/signup" className="text-pink-500">
-                  Sign up →
-                </a>
-              </>
-            )}
-          </p>
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label
                 htmlFor="email"
@@ -89,52 +83,98 @@ const Login = () => {
                 type="email"
                 id="email"
                 name="email"
-                className="mt-1 block bg-white w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 block bg-white w-full px-4 py-2 border rounded-lg"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
-            {!isForgotPassword && (
-              <div className="mb-4">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Password
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  className="mt-1 bg-white block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
+
+            {step === "login" && (
+              <>
+                <div className="mb-4">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    className="mt-1  bg-white block w-full px-4 py-2 border rounded-lg"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <button
+                    type="button"
+                    className="text-sm text-pink-300 hover:underline"
+                    onClick={() => setStep("forgot")}
+                  >
+                    Forgot password?
+                  </button>
+                </div>
+              </>
             )}
-            {!isForgotPassword && (
-              <div className="mb-4">
-                <button
-                  type="button"
-                  className="text-sm text-pink-300 bg-white hover:underline"
-                  onClick={() => setIsForgotPassword(true)}
-                >
-                  Forgot password?
-                </button>
-              </div>
+
+            {step === "reset" && (
+              <>
+                <div className="mb-4">
+                  <label
+                    htmlFor="token"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Token
+                  </label>
+                  <input
+                    type="text"
+                    id="token"
+                    name="token"
+                    className="mt-1 bg-white block w-full px-4 py-2 border rounded-lg"
+                    placeholder="Enter the token you received"
+                    value={token}
+                    onChange={(e) => setToken(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="newPassword"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    New Password
+                  </label>
+                  <input
+                    type="password"
+                    id="newPassword"
+                    name="newPassword"
+                    className="mt-1 bg-white block w-full px-4 py-2 border rounded-lg"
+                    placeholder="Enter new password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    required
+                  />
+                </div>
+              </>
             )}
 
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200"
+              className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
             >
-              {isForgotPassword ? "Submit" : "Log in"}
+              {step === "forgot"
+                ? "Send Reset Email"
+                : step === "reset"
+                ? "Reset Password"
+                : "Log in"}
             </button>
-            {console.log("Rendering with error:", error)}
+
             {error && (
               <div className="mt-4 text-center text-red-500 text-sm">
                 {error}
@@ -142,7 +182,6 @@ const Login = () => {
             )}
           </form>
         </div>
-        <div className="w-1/2 relative"></div>
       </main>
     </div>
   );
