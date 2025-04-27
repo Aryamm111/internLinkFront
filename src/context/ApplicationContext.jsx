@@ -22,15 +22,15 @@ export const ApplicationProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, [setLoading, setApplications]); 
+  }, [setLoading, setApplications]);
 
   const applyForInternship = async (
     internshipId,
     studentId,
     internshipTitle,
     applicationLetter,
-    academicRecord, 
-    cv, 
+    academicRecord,
+    cv,
     skills
   ) => {
     try {
@@ -38,12 +38,12 @@ export const ApplicationProvider = ({ children }) => {
       formData.append("studentId", studentId);
       formData.append("internshipTitle", internshipTitle);
       formData.append("applicationLetter", applicationLetter);
-      formData.append("academicRecord", academicRecord); 
+      formData.append("academicRecord", academicRecord);
       formData.append("cv", cv); // Add cv
       formData.append("skills", skills);
 
       const response = await axios.post(
-        `http://localhost:8081/api/applications/${internshipId}/apply`, 
+        `http://localhost:8081/api/applications/${internshipId}/apply`,
         formData,
         {
           withCredentials: true,
@@ -60,6 +60,48 @@ export const ApplicationProvider = ({ children }) => {
     }
   };
 
+  const fetchApplicantsForInternship = useCallback(async (internshipId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8081/api/applications/${internshipId}/applicants`,
+        { withCredentials: true }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching applicants:", error);
+      return [];
+    }
+  }, []);
+
+  const updateApplicationStatus = async (applicationId, status) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8081/api/applications/${applicationId}/updatestatus?status=${status}`,
+        {},
+        { withCredentials: true }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error updating status:", error);
+      throw error;
+    }
+  };
+
+  const fetchAcceptedStudents = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        "http://localhost:8081/api/applications/accepted-students",
+        { withCredentials: true }
+      );
+      return response.data; // Return the data so the component can use it
+    } catch (error) {
+      console.error("Error fetching accepted students:", error);
+      return []; // Always return something
+    } finally {
+      setLoading(false);
+    }
+  }, []);
   return (
     <ApplicationContext.Provider
       value={{
@@ -67,6 +109,9 @@ export const ApplicationProvider = ({ children }) => {
         fetchStudentApplications,
         loading,
         applyForInternship,
+        fetchApplicantsForInternship,
+        updateApplicationStatus,
+        fetchAcceptedStudents,
       }}
     >
       {children}
