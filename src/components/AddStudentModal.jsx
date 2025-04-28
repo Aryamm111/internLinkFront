@@ -10,7 +10,6 @@ const AddStudentModal = ({ show, onClose }) => {
       alert("Student ID is required!");
       return;
     }
-
     try {
       const response = await assignFacultySupervisor(studentId);
 
