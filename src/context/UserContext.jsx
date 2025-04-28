@@ -183,6 +183,18 @@ export const UserProvider = ({ children }) => {
       throw error;
     }
   };
+  const findEmailById = async (id) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8081/api/user/email/${id}`,
+        { withCredentials: true }
+      );
+      return response.data; // the email
+    } catch (error) {
+      console.error("Failed to fetch email:", error);
+      return null;
+    }
+  };
 
   const logout = async () => {
     try {
@@ -219,6 +231,7 @@ export const UserProvider = ({ children }) => {
         isAuthenticated,
         login,
         logout,
+        findEmailById,
         forgotPassword,
         resetPassword,
         registerCompanySupervisor,
