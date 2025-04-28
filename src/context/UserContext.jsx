@@ -111,8 +111,10 @@ export const UserProvider = ({ children }) => {
 
       if (data.userId) {
         setUserId(data.userId);
-        setUserName(data.username);
-        setUserEmail(data.email);
+        // setUserName(data.username);
+        // setUserEmail(data.email);
+        setUserName(data.userName);
+        setUserEmail(data.userEmail);
         setUserRole(data.role);
         setIsAuthenticated(true);
 
@@ -124,8 +126,8 @@ export const UserProvider = ({ children }) => {
         }
 
         localStorage.setItem("userId", data.userId);
-        localStorage.setItem("userName", data.username);
-        localStorage.setItem("userEmail", data.email);
+        localStorage.setItem("userName", data.userName);
+        localStorage.setItem("userEmail", data.userEmail);
         localStorage.setItem("userRole", data.role);
       } else {
         console.error("Session response missing userId:", data);

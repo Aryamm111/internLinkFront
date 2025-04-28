@@ -2,21 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useInternships } from "../context/InternshipContext";
 import { useUser } from "../context/UserContext";
-import { UilMapMarker } from "@iconscout/react-unicons"; 
-import { UilClock } from "@iconscout/react-unicons"; 
+import { UilMapMarker } from "@iconscout/react-unicons";
+import { UilClock } from "@iconscout/react-unicons";
 import { useApplication } from "../context/ApplicationContext";
 
 const InternshipDetail = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const { fetchInternshipById, loading } = useInternships();
-  const [file, setFile] = useState(null); 
+  const [file, setFile] = useState(null);
   const [internship, setInternship] = useState(null);
   const [skills, setSkills] = useState("");
-  const [academicRecord, setAcademicRecord] = useState(null); 
+  const [academicRecord, setAcademicRecord] = useState(null);
   const [cv, setCv] = useState(null);
 
-  const [showForm, setShowForm] = useState(false); 
-  const { userName, userMajor, userGpa, userSkills, userRole } = useUser();
+  const [showForm, setShowForm] = useState(false);
+  const { userId, userMajor, userGpa, userSkills, userRole } = useUser();
   const [applying, setApplying] = useState(false);
   const { applyForInternship } = useApplication();
   const handleFileChange = (event) => {
@@ -48,11 +48,11 @@ const InternshipDetail = () => {
       setApplying(true);
       const response = await applyForInternship(
         internship.id,
-        userName,
+        userId,
         internship.title,
         file,
-        academicRecord, 
-        cv, 
+        academicRecord,
+        cv,
         skills
       );
       alert(response);
@@ -66,7 +66,7 @@ const InternshipDetail = () => {
   useEffect(() => {
     const getInternshipDetails = async () => {
       try {
-        const data = await fetchInternshipById(id); 
+        const data = await fetchInternshipById(id);
         setInternship(data);
       } catch (error) {
         console.error("Error in InternshipDetail component:", error);
@@ -110,7 +110,7 @@ const InternshipDetail = () => {
               </div>
               <div className="flex items-center">
                 <UilClock className="text-pink-300 mr-1" />
-                <span>{internship.duration} Hours</span>
+                <span>{internship.duration} Weeks</span>
               </div>
             </div>
 
@@ -183,11 +183,11 @@ const InternshipDetail = () => {
                     <div className="grid grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-medium text-gray-700">
-                          Name
+                          ID
                         </label>
                         <input
                           type="text"
-                          value={userName || ""}
+                          value={userId || ""}
                           disabled
                           className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-800"
                         />

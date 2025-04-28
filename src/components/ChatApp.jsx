@@ -16,7 +16,8 @@ import {
 } from "@iconscout/react-unicons";
 
 const ChatApp = () => {
-  const { userName } = useUser();
+  // const { userEmail } = useUser();
+  const { userEmail } = useUser();
   const [selectedChat, setSelectedChat] = useState(null);
   const [message, setMessage] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -73,11 +74,11 @@ const ChatApp = () => {
   }, [isConnected]);
 
   const handleStartNewConversation = async () => {
-    if (!newParticipant || newParticipant === userName) return;
+    if (!newParticipant || newParticipant === userEmail) return;
 
     try {
       const conversation = await getOrCreateConversation(
-        userName,
+        userEmail,
         newParticipant
       );
 
@@ -98,7 +99,7 @@ const ChatApp = () => {
     const loadConversations = async () => {
       try {
         setLoading(true);
-        const data = await fetchConversations(userName);
+        const data = await fetchConversations(userEmail);
         setConversations(data || []);
       } catch (err) {
         setError("Failed to load conversations");
@@ -108,8 +109,8 @@ const ChatApp = () => {
       }
     };
 
-    if (userName) loadConversations();
-  }, [userName]);
+    if (userEmail) loadConversations();
+  }, [userEmail]);
 
   useEffect(() => {
     const loadMessages = async () => {
@@ -126,7 +127,7 @@ const ChatApp = () => {
   }, [selectedChat]);
 
   const getOtherParticipant = (participants) => {
-    return participants.find((p) => p !== userName) || "Unknown";
+    return participants.find((p) => p !== userEmail) || "Unknown";
   };
 
   const handleSendMessage = () => {
@@ -135,7 +136,7 @@ const ChatApp = () => {
     const localId = Date.now();
     const newMessage = {
       conversationId: selectedChat.id,
-      senderId: userName,
+      senderId: userEmail,
       content: message,
       localId,
       timestamp: new Date().toISOString(),
@@ -205,7 +206,7 @@ const ChatApp = () => {
               <div className="flex items-center space-x-2">
                 <input
                   type="text"
-                  placeholder="Username to message..."
+                  placeholder="userEmail to message..."
                   className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
                   value={newParticipant}
                   onChange={(e) => setNewParticipant(e.target.value)}
@@ -273,14 +274,14 @@ const ChatApp = () => {
                     <div
                       key={msg.id || msg.localId}
                       className={`flex ${
-                        msg.senderId === userName
+                        msg.senderId === userEmail
                           ? "justify-end"
                           : "justify-start"
                       }`}
                     >
                       <div
                         className={`max-w-xs lg:max-w-md px-4 py-3 rounded-xl ${
-                          msg.senderId === userName
+                          msg.senderId === userEmail
                             ? "bg-blue-500 text-white rounded-br-none"
                             : "bg-gray-200 text-gray-800 rounded-bl-none"
                         }`}
@@ -288,7 +289,7 @@ const ChatApp = () => {
                         <p className="text-sm">{msg.content}</p>
                         <div
                           className={`text-xs mt-1 ${
-                            msg.senderId === userName
+                            msg.senderId === userEmail
                               ? "text-blue-100"
                               : "text-gray-500"
                           }`}
