@@ -34,6 +34,7 @@ import ApplicationsTable from "./components/ApplicationsTable.jsx";
 import ViewApplicants from "./components/ViewApplicants.jsx";
 import { ReportProvider } from "./context/ReportContext.jsx";
 import UpdateProfile from "./components/UpdateProfile.jsx";
+import { CompanySupervisorProvider } from "./context/CompanySupervisorContext.jsx";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -90,17 +91,19 @@ root.render(
   <StrictMode>
     <UserProvider>
       <WebSocketProvider>
-        <ReportProvider>
-          <TaskProvider>
-            <ApplicationProvider>
-              <InternshipProvider>
-                <StudentProvider>
-                  <RouterProvider router={router} />
-                </StudentProvider>
-              </InternshipProvider>
-            </ApplicationProvider>
-          </TaskProvider>
-        </ReportProvider>
+        <CompanySupervisorProvider>
+          <ReportProvider>
+            <TaskProvider>
+              <ApplicationProvider>
+                <InternshipProvider>
+                  <StudentProvider>
+                    <RouterProvider router={router} />
+                  </StudentProvider>
+                </InternshipProvider>
+              </ApplicationProvider>
+            </TaskProvider>
+          </ReportProvider>
+        </CompanySupervisorProvider>
       </WebSocketProvider>
     </UserProvider>
   </StrictMode>
