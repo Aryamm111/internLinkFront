@@ -44,6 +44,11 @@ export const ReportProvider = ({ children }) => {
       );
       setMyReport(response.data);
     } catch (error) {
+      if (error.response.status === 409) {
+        throw new Error(
+          "You don't have a supervisor yet. You cannot upload a report."
+        );
+      }
       console.error("Error uploading report:", error);
       throw error;
     }
