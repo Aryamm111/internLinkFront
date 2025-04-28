@@ -3,18 +3,36 @@ import { useStudents } from "../context/StudentContext";
 import { useUser } from "../context/UserContext";
 
 const ViewStudentModal = ({ show, onClose, studentId }) => {
-  const { students, fetchStudents } = useStudents();
+  const { students } = useStudents();
   const [studentDetails, setStudentDetails] = useState(null);
-  const { userId, userRole } = useUser();
+  const { userId, userRole, findEmailById } = useUser();
+  const [facultyEmail, setFacultyEmail] = useState("");
+  const [companyEmail, setCompanyEmail] = useState("");
 
   useEffect(() => {
     if (show && studentId) {
       const student = students.find((s) => s.id === studentId);
       setStudentDetails(student || {});
-
       console.log("Clicked studentId:", studentId);
     }
   }, [show, studentId, students]);
+
+  useEffect(() => {
+    const fetchEmails = async () => {
+      if (studentDetails?.facultySupervisorId) {
+        const email = await findEmailById(studentDetails.facultySupervisorId);
+        setFacultyEmail(email);
+      }
+      if (studentDetails?.companySupervisorId) {
+        const email = await findEmailById(studentDetails.companySupervisorId);
+        setCompanyEmail(email);
+      }
+    };
+
+    if (studentDetails) {
+      fetchEmails();
+    }
+  }, [studentDetails, findEmailById]);
 
   if (!show) return null;
 
@@ -38,16 +56,16 @@ const ViewStudentModal = ({ show, onClose, studentId }) => {
               <strong>Major: </strong> {studentDetails.major}
             </p>
             <p className="text-lg">
-              <strong>Company Supervisor id : </strong>{" "}
-              {studentDetails.companySupervisorId}
+              <strong>Faculty Supervisor Email: </strong>{" "}
+              {facultyEmail || "N/A"}
             </p>
             <p className="text-lg">
-              <strong>Faculty Supervisor id : </strong>{" "}
-              {studentDetails.facultySupervisorId}
+              <strong>Company Supervisor Email: </strong>{" "}
+              {companyEmail || "N/A"}
             </p>
           </div>
         ) : (
-          <p className="text-center text-gray-600">Loading...{studentId}</p>
+          <p className="text-center text-gray-600">Loading...</p>
         )}
         <div className="flex justify-end mt-6">
           <button
