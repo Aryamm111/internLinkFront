@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useReports } from "../context/ReportContext";
-import { UilFileAlt } from "@iconscout/react-unicons";
+import { UilFileAlt, UilTimes } from "@iconscout/react-unicons";
 import {
   UilCheckCircle,
   UilExclamationTriangle,
@@ -12,30 +12,56 @@ const StudentReport = () => {
   const [showModal, setShowModal] = useState(false);
   const [newFile, setNewFile] = useState(null);
   const [newTitle, setNewTitle] = useState("");
+  const [uploadStatus, setUploadStatus] = useState(null); // 'success' or 'error'
+  const [statusMessage, setStatusMessage] = useState("");
 
   useEffect(() => {
     fetchReports();
   }, []);
 
   const handleUpload = async () => {
-    if (!newFile || !newTitle.trim())
-      return alert("File and title are required");
+    if (!newFile || !newTitle.trim()) {
+      setUploadStatus("error");
+      setStatusMessage("File and title are required");
+      setTimeout(() => {
+        setUploadStatus(null);
+        setStatusMessage("");
+      }, 3000);
+      return;
+    }
 
     try {
-      await uploadMyReport(newFile); // title not used currently in backend
-      setShowModal(false);
-      setNewFile(null);
-      setNewTitle("");
-      fetchReports(); // Refresh list
+      await uploadMyReport(newFile);
+      setUploadStatus("success");
+      setStatusMessage("Report uploaded successfully!");
+
+      setTimeout(() => {
+        setShowModal(false);
+        setNewFile(null);
+        setNewTitle("");
+        setUploadStatus(null);
+        setStatusMessage("");
+        fetchReports(); // Refresh list
+      }, 1500);
     } catch (error) {
       console.error("Upload failed:", error);
-      alert("Upload failed");
+
+      if (
+        error.message ===
+        "You don't have a supervisor yet. You cannot upload a report."
+      ) {
+        setStatusMessage(error.message);
+      } else {
+        setStatusMessage("Upload failed. Please try again.");
+      }
+
+      setUploadStatus("error");
+      setTimeout(() => {
+        setUploadStatus(null);
+        setStatusMessage("");
+      }, 3000);
     }
   };
-
-  useEffect(() => {
-    fetchReports();
-  }, []);
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
@@ -126,13 +152,44 @@ const StudentReport = () => {
         </div>
       )}
 
-      {/* Upload Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-xl w-full max-w-md shadow-2xl">
+          <div className="bg-white p-6 rounded-xl w-full max-w-md shadow-2xl relative">
+            <button
+              onClick={() => {
+                setShowModal(false);
+                setUploadStatus(null);
+                setStatusMessage("");
+              }}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+            >
+              <UilTimes size="20" />
+            </button>
+
             <h2 className="text-xl font-semibold mb-4 text-indigo-700">
               Upload New Report
             </h2>
+
+            {/* Status Message */}
+            {uploadStatus && (
+              <div
+                className={`mb-4 p-3 rounded-md ${
+                  uploadStatus === "success"
+                    ? "bg-green-50 text-green-700"
+                    : "bg-red-50 text-red-700"
+                }`}
+              >
+                <div className="flex items-center">
+                  {uploadStatus === "success" ? (
+                    <UilCheckCircle className="mr-2" />
+                  ) : (
+                    <UilExclamationTriangle className="mr-2" />
+                  )}
+                  <span>{statusMessage}</span>
+                </div>
+              </div>
+            )}
+
             <div className="space-y-4">
               <div>
                 <label className="block text-gray-700 mb-1">Report Title</label>
@@ -170,15 +227,29 @@ const StudentReport = () => {
             <div className="flex justify-end space-x-3 mt-6">
               <button
                 className="px-5 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
-                onClick={() => setShowModal(false)}
+                onClick={() => {
+                  setShowModal(false);
+                  setUploadStatus(null);
+                  setStatusMessage("");
+                }}
               >
                 Cancel
               </button>
               <button
-                className="px-5 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                className={`px-5 py-2 text-white rounded-lg transition-colors ${
+                  uploadStatus === "success"
+                    ? "bg-green-500 hover:bg-green-600"
+                    : uploadStatus === "error"
+                    ? "bg-red-500 hover:bg-red-600"
+                    : "bg-blue-500 hover:bg-blue-600"
+                }`}
                 onClick={handleUpload}
               >
-                Upload
+                {uploadStatus === "success"
+                  ? "Success!"
+                  : uploadStatus === "error"
+                  ? "Try Again"
+                  : "Upload"}
               </button>
             </div>
           </div>
