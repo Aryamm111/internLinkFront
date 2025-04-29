@@ -13,7 +13,7 @@ const Login = () => {
   const [step, setStep] = useState("login"); // "login", "forgot", "reset"
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { login, forgotPassword, resetPassword } = useUser(); // Make sure you have resetPassword defined
+  const { login, forgotPassword, resetPassword } = useUser();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

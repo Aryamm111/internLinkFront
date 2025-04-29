@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useUser } from "../context/UserContext";
-import { useStudents } from "../context/StudentContext"; // <<< ADD THIS
+import { useStudents } from "../context/StudentContext";
 import {
   UilPen,
   UilCheckCircle,
@@ -9,12 +9,53 @@ import {
 } from "@iconscout/react-unicons";
 
 function UpdateStudentPage() {
-  const { userName, userEmail, userMajor, userGpa, userSkills } = useUser();
-  const { updateStudent } = useStudents(); // <<< USE CONTEXT FUNCTION
+  const {
+    userId,
+    userName,
+    userEmail,
+    userMajor,
+    userGpa,
+    userSkills,
+    findEmailById,
+  } = useUser();
+
+  const { students, updateStudent, fetchSupervisorIds } = useStudents();
 
   const [skills, setSkills] = useState(userSkills.join(", ") || "");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [loadingEmails, setLoadingEmails] = useState(false);
+  const [facultyEmail, setFacultyEmail] = useState("");
+  const [companyEmail, setCompanyEmail] = useState("");
+  const [studentDetails, setStudentDetails] = useState({});
+
+  // Fetch the student details when students list or userId changes
+
+  // Fetch the faculty and company supervisor emails
+  // UpdateStudentPage.js
+  useEffect(() => {
+    if (!userId) return;
+
+    const fetchEmails = async () => {
+      const { facultySupervisorId, companySupervisorId } =
+        await fetchSupervisorIds(userId);
+
+      // Parallelize email fetching
+      const [facultyEmail, companyEmail] = await Promise.all([
+        facultySupervisorId
+          ? findEmailById(facultySupervisorId)
+          : Promise.resolve(null),
+        companySupervisorId
+          ? findEmailById(companySupervisorId)
+          : Promise.resolve(null),
+      ]);
+
+      setFacultyEmail(facultyEmail);
+      setCompanyEmail(companyEmail);
+    };
+
+    fetchEmails();
+  }, [userId]);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -27,7 +68,7 @@ function UpdateStudentPage() {
     };
 
     try {
-      await updateStudent(updatedData); // <<< CALL CONTEXT FUNCTION
+      await updateStudent(updatedData);
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
     } catch (error) {
@@ -50,6 +91,16 @@ function UpdateStudentPage() {
             <h2 className="text-xl font-bold text-gray-800">{userName}</h2>
             <p className="text-xs text-gray-500">{userEmail}</p>
           </div>
+        </div>
+
+        {/* Supervisor Emails */}
+        <div className="space-y-2 mb-6">
+          <p className="text-sm text-gray-700">
+            <strong>Faculty Supervisor Email:</strong> {facultyEmail || "N/A"}
+          </p>
+          <p className="text-sm text-gray-700">
+            <strong>Company Supervisor Email:</strong> {companyEmail || "N/A"}
+          </p>
         </div>
 
         <form onSubmit={handleUpdate} className="space-y-4">

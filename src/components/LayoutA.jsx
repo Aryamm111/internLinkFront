@@ -7,7 +7,6 @@ import imageSrc from "../assets/bg2.png";
 
 const LayoutA = () => {
   const { userRole } = useUser();
-  console.log("User Role in LayoutA:", userRole);
 
   return (
     <div className="flex min-h-screen relative ">

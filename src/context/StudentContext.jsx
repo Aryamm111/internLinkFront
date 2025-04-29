@@ -12,6 +12,19 @@ export const StudentProvider = ({ children }) => {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // StudentContext.js
+  const fetchSupervisorIds = async (studentId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8081/api/students/${studentId}/supervisor-ids`,
+        { withCredentials: true }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Fetch supervisor IDs error:", error);
+      return { facultySupervisorId: null, companySupervisorId: null };
+    }
+  };
   const fetchStudents = async () => {
     try {
       setLoading(true);
@@ -106,6 +119,7 @@ export const StudentProvider = ({ children }) => {
         fetchStudents,
         assignCompanySupervisor,
         updateStudent,
+        fetchSupervisorIds,
       }}
     >
       {children}
