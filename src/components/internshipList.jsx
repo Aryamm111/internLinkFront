@@ -34,7 +34,7 @@ const InternshipList = () => {
       const url = `http://localhost:8081/api/internships/search`;
       const params = {
         page: currentPage,
-        size: 10,
+        size: 15,
         ...(searchTerm && { title: encodeURIComponent(searchTerm) }),
         ...(selectedMajor && { major: encodeURIComponent(selectedMajor) }),
       };

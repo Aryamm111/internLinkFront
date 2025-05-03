@@ -5,10 +5,25 @@ import { Task } from "./Task";
 export const MyTasks = () => {
   const { tasks, loading, toggleTask, fetchTasks } = useTasks();
   const [filter, setFilter] = useState("all");
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  // Update current date every minute (optional)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 60000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     fetchTasks();
   }, []);
+
+  const isTaskOverdue = (task) => {
+    if (!task.dueDate) return false;
+    const dueDate = new Date(task.dueDate);
+    return dueDate < currentDate;
+  };
 
   const totalTasks = tasks.length;
   const completedTasks = tasks.filter((task) => task.completed).length;
@@ -17,7 +32,9 @@ export const MyTasks = () => {
   const filteredTasks = Array.isArray(tasks)
     ? tasks.filter((task) => {
         if (filter === "completed") return task.completed;
-        if (filter === "incomplete") return !task.completed;
+        if (filter === "incomplete")
+          return !task.completed && !isTaskOverdue(task);
+        if (filter === "overdue") return !task.completed && isTaskOverdue(task);
         return true;
       })
     : [];
@@ -60,6 +77,7 @@ export const MyTasks = () => {
                     <option value="all">All Tasks</option>
                     <option value="completed">Completed</option>
                     <option value="incomplete">Incomplete</option>
+                    <option value="overdue">Overdue</option>
                   </select>
                 </div>
 
@@ -68,7 +86,12 @@ export const MyTasks = () => {
                     <p className="text-center">No tasks available</p>
                   ) : (
                     filteredTasks.map((task) => (
-                      <Task key={task.id} task={task} toggleTask={toggleTask} />
+                      <Task
+                        key={task.id}
+                        task={task}
+                        toggleTask={isTaskOverdue(task) ? null : toggleTask}
+                        isOverdue={isTaskOverdue(task)}
+                      />
                     ))
                   )}
                 </div>
