@@ -18,7 +18,7 @@ const InternshipList = () => {
   const { userId, userRole } = useUser();
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedMajor, setSelectedMajor] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState("");
   const [searchResults, setSearchResults] = useState(null);
   const [searchLoading, setSearchLoading] = useState(false);
 
@@ -36,7 +36,9 @@ const InternshipList = () => {
         page: currentPage,
         size: 15,
         ...(searchTerm && { title: encodeURIComponent(searchTerm) }),
-        ...(selectedMajor && { major: encodeURIComponent(selectedMajor) }),
+        ...(selectedLocation && {
+          location: encodeURIComponent(selectedLocation),
+        }),
       };
 
       const response = await axios.get(url, {
@@ -52,12 +54,12 @@ const InternshipList = () => {
   };
 
   useEffect(() => {
-    if (searchTerm || selectedMajor) {
+    if (searchTerm || selectedLocation) {
       fetchSearchResults();
     } else {
       setSearchResults(null);
     }
-  }, [searchTerm, selectedMajor, currentPage]);
+  }, [searchTerm, selectedLocation, currentPage]);
 
   if (userRole !== "STUDENT") {
     return (
@@ -110,21 +112,15 @@ const InternshipList = () => {
           <UilFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
           <select
             className="w-full pl-10 pr-4 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-300"
-            value={selectedMajor}
-            onChange={(e) => setSelectedMajor(e.target.value)}
+            value={selectedLocation}
+            onChange={(e) => setSelectedLocation(e.target.value)}
           >
-            <option value="">All Majors</option>
-            {[
-              ...new Set(
-                recommendedInternships.flatMap(
-                  (internship) => internship.majors
-                )
-              ),
-            ].map((major) => (
-              <option key={major} value={major}>
-                {major}
-              </option>
-            ))}
+            <option value="">All Locations</option>
+            <option value="Medina">Medina</option>
+            <option value="Ula">Ula</option>
+            <option value="Yanbu">Yanbu</option>
+            <option value="Khaibar">Khaibar</option>
+            <option value="Badr">Badr</option>
           </select>
         </div>
       </div>

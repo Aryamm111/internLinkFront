@@ -102,6 +102,7 @@ export const StudentProvider = ({ children }) => {
           s.studentId === studentId ? { ...s, assigned: true } : s
         )
       );
+      return { success: true };
     } catch (error) {
       console.error("Error assigning supervisor:", error);
       throw error;

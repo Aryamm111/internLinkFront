@@ -3,23 +3,31 @@ import { useStudents } from "../context/StudentContext";
 
 const AddStudentModal = ({ show, onClose }) => {
   const [studentId, setStudentId] = useState("");
+  const [message, setMessage] = useState("");
   const { assignFacultySupervisor } = useStudents();
 
   const handleAddStudent = async () => {
     if (!studentId) {
-      alert("Student ID is required!");
+      setMessage("Student ID is required!");
       return;
     }
+
     try {
       const response = await assignFacultySupervisor(studentId);
 
       if (response) {
-        console.log("Student added:", response);
-        onClose();
+        setMessage("Student successfully added!");
+        // Optional: clear input after success
+        setStudentId("");
+        setTimeout(() => {
+          onClose(); // close after showing message briefly
+        }, 1500);
+      } else {
+        setMessage("No response from server.");
       }
     } catch (error) {
       console.error("Error adding student:", error);
-      alert("Failed to add student.");
+      setMessage("Failed to add student.");
     }
   };
 
@@ -29,16 +37,20 @@ const AddStudentModal = ({ show, onClose }) => {
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
       <div className="bg-white w-11/12 max-w-lg p-6 rounded-lg shadow-lg">
         <h2 className="text-xl font-bold mb-4">Add Student</h2>
-        <label className="block mb-2 ">
+        <label className="block mb-2">
           Student ID:
           <input
             type="text"
-            name="studentId"
             value={studentId}
             onChange={(e) => setStudentId(e.target.value)}
             className="mt-1 bg-white p-2 w-full border border-gray-300 rounded-md"
           />
         </label>
+        {message && (
+          <div className="text-sm mt-2 text-center text-blue-600">
+            {message}
+          </div>
+        )}
         <div className="flex justify-end mt-4">
           <button
             onClick={onClose}
